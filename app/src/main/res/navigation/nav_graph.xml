@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_MapFragment"
             app:destination="@id/MapFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_ListFragment"
+            app:destination="@id/ListFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -31,7 +34,25 @@
     <fragment
         android:id="@+id/MapFragment"
         android:name="elfak.mosis.rmais.MapFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/map_fragment_label"
         tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_MapFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_MapFragment_to_ListFragment"
+            app:destination="@id/ListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ListFragment"
+        android:name="elfak.mosis.rmais.ListFragment"
+        android:label="@string/list_fragment_label"
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/action_ListFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_ListFragment_to_MapFragment"
+            app:destination="@id/MapFragment" />
     </fragment>
 </navigation>
