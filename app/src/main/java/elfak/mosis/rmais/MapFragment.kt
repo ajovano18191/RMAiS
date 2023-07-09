@@ -62,7 +62,7 @@ class MapFragment : Fragment() {
         for(reference in referencesViewModel.referencesList) {
             var marker = Marker(map)
             marker.position = GeoPoint(reference.lat, reference.log)
-            marker.title = "${reference.reference} ${reference.name}"
+            marker.title = reference.toString()
             marker.icon = resources.getDrawable(reference.pinIcon)
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
             marker.infoWindow = ReferenceWindow(map, reference)

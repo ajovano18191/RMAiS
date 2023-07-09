@@ -10,4 +10,8 @@ data class WFFReference(
     override val log: Double,
     ) : IReference {
     override var pinIcon: Int = R.drawable.aleksa_baseline_location_on_24_wff
+
+    override fun toString(): String {
+        return "$reference $name"
+    }
 }
