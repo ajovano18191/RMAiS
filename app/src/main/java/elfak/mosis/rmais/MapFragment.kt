@@ -1,5 +1,6 @@
 package elfak.mosis.rmais
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -9,12 +10,13 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
+import elfak.mosis.rmais.model.ReferencesViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
@@ -26,6 +28,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
  */
 class MapFragment : Fragment() {
     lateinit var map: MapView
+    private val referencesViewModel: ReferencesViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,7 @@ class MapFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var ctx: Context? = activity?.applicationContext
@@ -55,7 +59,18 @@ class MapFragment : Fragment() {
             setMyLocationOverlay()
         }
 
-        map.controller.setZoom(16.0)
+        for(reference in referencesViewModel.referencesList) {
+            var marker = Marker(map)
+            marker.position = GeoPoint(reference.lat, reference.log)
+            marker.title = "${reference.reference} ${reference.name}"
+            marker.icon = resources.getDrawable(reference.pinIcon)
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            marker.infoWindow = ReferenceWindow(map, reference)
+            map.overlays.add(marker)
+        }
+        map.invalidate()
+
+        map.controller.setZoom(10.0)
         val startPoint = GeoPoint(43.753629, 20.090579)
         map.controller.setCenter(startPoint)
     }

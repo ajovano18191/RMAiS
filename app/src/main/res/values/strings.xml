@@ -7,6 +7,13 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="infowindow_lat_label">Latitude:</string>
+    <string name="infowindow_log_label">Longitude:</string>
+    <string name="infowindow_loc_label">QTH Loc:</string>
+    <string name="infowindow_activate_button">activate</string>
+    <string name="infowindow_edit_button">edit</string>
+    <string name="infowindow_delete_button">edit</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
