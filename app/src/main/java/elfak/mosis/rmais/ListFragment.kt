@@ -1,10 +1,25 @@
 package elfak.mosis.rmais
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.opengl.Visibility
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ListView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import elfak.mosis.rmais.data.IReference
+import elfak.mosis.rmais.model.ReferencesViewModel
+
 
 /**
  * A simple [Fragment] subclass.
@@ -12,6 +27,7 @@ import android.view.ViewGroup
  * create an instance of this fragment.
  */
 class ListFragment : Fragment() {
+    private val referencesViewModel: ReferencesViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +44,40 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val referencesList: ListView = requireView().findViewById<ListView>(R.id.list)
+        referencesList.adapter = ArrayAdapter<IReference>(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
 
+        referencesList.onItemClickListener =
+            AdapterView.OnItemClickListener { p0, p1, p2, p3 ->
+                val inflater =
+                    requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                var reference: IReference = p0?.adapter?.getItem(p2) as IReference
+
+                referencesViewModel.selectedReference = reference
+
+                val mView = inflater.inflate(R.layout.info_window, null)
+                ReferencesViewModel.updateView(mView, reference)
+
+                var alterDialog = AlertDialog.Builder(context)
+                    .setView(mView)
+                    .show();
+
+                val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
+                mapButton.visibility = View.VISIBLE
+                mapButton.setOnClickListener {
+                    alterDialog.cancel()
+                    findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
+                }
+            }
     }
 }
+
+/*
+                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(view.context)
+                val alertDialog: AlertDialog = dialogBuilder.create()
+                alertDialog.setContentView(inflater.inflate(R.layout.info_window, null))
+                val editText = alertDialog.findViewById(R.id.infoview_title_text) as EditText
+                editText.setText("test label")
+                alertDialog.show()
+ */
