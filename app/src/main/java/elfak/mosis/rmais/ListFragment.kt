@@ -69,6 +69,12 @@ class ListFragment : Fragment() {
                     alterDialog.cancel()
                     findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
                 }
+
+                val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
+                editButton.setOnClickListener {
+                    alterDialog.cancel()
+                    findNavController().navigate(R.id.action_ListFragment_to_AddOrEditFragment)
+                }
             }
     }
 }

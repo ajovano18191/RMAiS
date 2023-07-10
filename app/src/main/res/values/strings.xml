@@ -22,6 +22,24 @@
     <string name="infowindow_delete_button">delete</string>
     <string name="infowindow_map_button">map</string>
 
+    <string name="addedit_add_fragment_label">Add Fragment</string>
+    <string name="addedit_edit_fragment_label">Edit Fragment</string>
+    <string name="action_add">Add</string>
+    <string name="action_edit">Edit</string>
+    <string name="addedit_radio_button_wff">WFF</string>
+    <string name="addedit_radio_button_sota">SOTA</string>
+    <string name="addedit_reference_prefix_label">Reference prefix:</string>
+    <string name="addedit_reference_number_label">Reference number:</string>
+    <string name="addedit_name_label">Name:</string>
+    <string name="addedit_loc_label">QTH Loc:</string>
+    <string name="addedit_lat_label">Latitude:</string>
+    <string name="addedit_log_label">Longitude:</string>
+    <string name="addedit_set_location_button">Set location</string>
+    <string name="addedit_add_button">ADD</string>
+    <string name="addedit_save_button">SAVE</string>
+    <string name="addedit_cancel_button">CANCEL</string>
+
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
@@ -58,6 +76,4 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
