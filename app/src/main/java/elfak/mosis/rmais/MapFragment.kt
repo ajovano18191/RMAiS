@@ -56,7 +56,7 @@ class MapFragment : Fragment() {
             )
         }
         else {
-            setMyLocationOverlay()
+            setupMap()
         }
 
         for(reference in referencesViewModel.referencesList) {
@@ -70,9 +70,19 @@ class MapFragment : Fragment() {
         }
         map.invalidate()
 
+    }
+
+    private fun setupMap() {
         map.controller.setZoom(10.0)
-        val startPoint = GeoPoint(43.753629, 20.090579)
-        map.controller.setCenter(startPoint)
+        var startPoint = GeoPoint(43.753629, 20.090579)
+        if(referencesViewModel.selectedReference != null) {
+            startPoint = GeoPoint(referencesViewModel.selectedReference!!.lat, referencesViewModel.selectedReference!!.log)
+        }
+        else {
+            startPoint = GeoPoint(43.753629, 20.090579)
+        }
+        map.controller.animateTo(startPoint)
+
     }
 
     private fun setMyLocationOverlay() {
@@ -99,4 +109,5 @@ class MapFragment : Fragment() {
         super.onPause()
         map.onPause()
     }
+
 }

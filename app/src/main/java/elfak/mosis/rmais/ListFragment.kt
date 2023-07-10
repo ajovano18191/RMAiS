@@ -3,6 +3,7 @@ package elfak.mosis.rmais
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import elfak.mosis.rmais.data.IReference
 import elfak.mosis.rmais.model.ReferencesViewModel
 
@@ -51,11 +54,21 @@ class ListFragment : Fragment() {
 
                 var reference: IReference = p0?.adapter?.getItem(p2) as IReference
 
+                referencesViewModel.selectedReference = reference
+
                 val mView = inflater.inflate(R.layout.info_window, null)
                 ReferencesViewModel.updateView(mView, reference)
-                var x = AlertDialog.Builder(context)
+
+                var alterDialog = AlertDialog.Builder(context)
                     .setView(mView)
                     .show();
+
+                val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
+                mapButton.visibility = View.VISIBLE
+                mapButton.setOnClickListener {
+                    alterDialog.cancel()
+                    findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
+                }
             }
     }
 }

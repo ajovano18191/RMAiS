@@ -20,6 +20,6 @@ class ReferenceWindow(private val mapView: MapView, private val reference: IRefe
     }
 
     override fun onClose() {
-
+        super.close()
     }
 }

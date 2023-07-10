@@ -1,9 +1,14 @@
 package elfak.mosis.rmais.model
 
+import android.app.AlertDialog
+import android.opengl.Visibility
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import elfak.mosis.rmais.R
 import elfak.mosis.rmais.data.IReference
 import elfak.mosis.rmais.data.SOTAReference
@@ -21,6 +26,8 @@ class ReferencesViewModel : ViewModel() {
             _referencesList.add(SOTAReference("Tara",        "SOTA-0005", "JN93RU", 43.84695816, 19.45927238))
             return _referencesList
         }
+
+    var selectedReference: IReference? = null
 
     companion object {
         fun updateView(mView: View, reference: IReference) {
@@ -41,35 +48,14 @@ class ReferencesViewModel : ViewModel() {
             val activateButton = mView.findViewById<ImageButton>(R.id.activate_button)
             val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
             val deleteButton = mView.findViewById<ImageButton>(R.id.delete_button)
-
+            val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
             editButton.setOnClickListener {
-                // How to create a moveMarkerMapListener is not covered here.
-                // Use the Map Listeners guide for this instead
-                //mapView.addMapListener(MoveMarkerMapListener)
+
             }
             deleteButton.setOnClickListener {
-                // Do Something
 
-                // In order to delete the marker,
-                // You would probably have to pass the "map class"
-                // where the map was created,
-                // along with an ID to reference the marker.
-
-                // Using a HashMap to store markers would be useful here
-                // so that the markers can be referenced by ID.
-
-                // Once you get the marker,
-                // you would do map.overlays.remove(marker)
             }
 
-            // You can set an onClickListener on the InfoWindow itself.
-            // This is so that you can close the InfoWindow once it has been tapped.
-
-            // Instead, you could also close the InfoWindows when the map is pressed.
-            // This is covered in the Map Listeners guide.
-
-            mView.setOnClickListener {
-            }
         }
     }
 }

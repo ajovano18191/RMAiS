@@ -79,6 +79,15 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/map_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/infowindow_map_button"
+            android:src="@drawable/outline_map_24"
+            android:visibility="gone" />
+
+        <ImageButton
             android:id="@+id/activate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
