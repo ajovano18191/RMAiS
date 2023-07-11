@@ -11,6 +11,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.rmais.data.IReference
 import elfak.mosis.rmais.data.SOTAReference
 import elfak.mosis.rmais.data.WFFReference
@@ -48,6 +49,9 @@ class AddOrEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
+        fab.hide()
 
         referencePrefixEditText = requireView().findViewById<EditText>(R.id.addedit_reference_prefix_text)
         referenceNumberEditText = requireView().findViewById<EditText>(R.id.addedit_reference_number_text)
@@ -111,7 +115,7 @@ class AddOrEditFragment : Fragment() {
         val log: String = logEditText.text.toString()
 
         var reference: IReference? = null
-        val referenceID = "$referencePrefix - $referenceNumber"
+        val referenceID = "$referencePrefix-$referenceNumber"
         if(wffRB.isChecked) {
             reference = WFFReference(name, referenceID, loc, lat.toDouble(), log.toDouble())
         }

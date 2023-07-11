@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.rmais.model.ReferencesViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
@@ -42,9 +43,12 @@ class MapFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
+        fab.show()
+
         var ctx: Context? = activity?.applicationContext
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences((ctx!!)))
         map = requireView().findViewById<MapView>(R.id.map)

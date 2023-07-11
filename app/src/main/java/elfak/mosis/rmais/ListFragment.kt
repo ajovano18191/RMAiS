@@ -45,6 +45,9 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
+        fab.show()
+
         val referencesList: ListView = requireView().findViewById<ListView>(R.id.list)
         referencesList.adapter = ArrayAdapter<IReference>(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
 
@@ -79,12 +82,3 @@ class ListFragment : Fragment() {
             }
     }
 }
-
-/*
-                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(view.context)
-                val alertDialog: AlertDialog = dialogBuilder.create()
-                alertDialog.setContentView(inflater.inflate(R.layout.info_window, null))
-                val editText = alertDialog.findViewById(R.id.infoview_title_text) as EditText
-                editText.setText("test label")
-                alertDialog.show()
- */
