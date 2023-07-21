@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.rmais.data.IReference
 import elfak.mosis.rmais.model.ReferencesViewModel
 
@@ -44,6 +45,9 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
+        fab.show()
+
         val referencesList: ListView = requireView().findViewById<ListView>(R.id.list)
         referencesList.adapter = ArrayAdapter<IReference>(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
 
@@ -53,8 +57,6 @@ class ListFragment : Fragment() {
                     requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
                 var reference: IReference = p0?.adapter?.getItem(p2) as IReference
-
-                referencesViewModel.selectedReference = reference
 
                 val mView = inflater.inflate(R.layout.info_window, null)
                 ReferencesViewModel.updateView(mView, reference)
@@ -66,18 +68,17 @@ class ListFragment : Fragment() {
                 val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
                 mapButton.visibility = View.VISIBLE
                 mapButton.setOnClickListener {
+                    referencesViewModel.selectedReference = reference
                     alterDialog.cancel()
                     findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
+                }
+
+                val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
+                editButton.setOnClickListener {
+                    referencesViewModel.selectedReference = reference
+                    alterDialog.cancel()
+                    findNavController().navigate(R.id.action_ListFragment_to_AddOrEditFragment)
                 }
             }
     }
 }
-
-/*
-                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(view.context)
-                val alertDialog: AlertDialog = dialogBuilder.create()
-                alertDialog.setContentView(inflater.inflate(R.layout.info_window, null))
-                val editText = alertDialog.findViewById(R.id.infoview_title_text) as EditText
-                editText.setText("test label")
-                alertDialog.show()
- */
