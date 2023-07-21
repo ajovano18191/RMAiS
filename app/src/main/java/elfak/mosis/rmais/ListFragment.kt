@@ -58,8 +58,6 @@ class ListFragment : Fragment() {
 
                 var reference: IReference = p0?.adapter?.getItem(p2) as IReference
 
-                referencesViewModel.selectedReference = reference
-
                 val mView = inflater.inflate(R.layout.info_window, null)
                 ReferencesViewModel.updateView(mView, reference)
 
@@ -70,12 +68,14 @@ class ListFragment : Fragment() {
                 val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
                 mapButton.visibility = View.VISIBLE
                 mapButton.setOnClickListener {
+                    referencesViewModel.selectedReference = reference
                     alterDialog.cancel()
                     findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
                 }
 
                 val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
                 editButton.setOnClickListener {
+                    referencesViewModel.selectedReference = reference
                     alterDialog.cancel()
                     findNavController().navigate(R.id.action_ListFragment_to_AddOrEditFragment)
                 }

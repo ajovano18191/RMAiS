@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MapFragment">
-<org.osmdroid.views.MapView
-    android:id="@+id/map"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    titlesource="Mapnik" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        titlesource="Mapnik"
+        android:layout_width="match_parent"
+        android:layout_height="665dp" />
 </FrameLayout>

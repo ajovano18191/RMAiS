@@ -5,6 +5,6 @@ interface IReference {
     val reference: String
     val loc: String
     val lat: Double
-    val log: Double
+    val lon: Double
     var pinIcon: Int
 }

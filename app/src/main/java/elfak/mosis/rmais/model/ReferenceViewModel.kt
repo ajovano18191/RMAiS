@@ -1,14 +1,9 @@
 package elfak.mosis.rmais.model
 
-import android.app.AlertDialog
-import android.opengl.Visibility
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import elfak.mosis.rmais.R
 import elfak.mosis.rmais.data.IReference
 import elfak.mosis.rmais.data.SOTAReference
@@ -50,7 +45,7 @@ class ReferencesViewModel() : ViewModel() {
             latText.text = reference.lat.toString()
 
             val logText = mView.findViewById<TextView>(R.id.infowindow_longitude_text)
-            logText.text = reference.log.toString()
+            logText.text = reference.lon.toString()
 
             val locText = mView.findViewById<TextView>(R.id.infowindow_loc_text)
             locText.text = reference.loc
