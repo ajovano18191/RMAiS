@@ -23,6 +23,7 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.lang.String
@@ -78,14 +79,16 @@ class MapFragment : Fragment() {
             marker.icon = resources.getDrawable(reference.pinIcon)
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
             marker.infoWindow = ReferenceWindow(map, reference, referencesViewModel)
+            if(reference == referencesViewModel.selectedReference) {
+                marker.showInfoWindow()
+            }
             map.overlays.add(marker)
         }
         map.invalidate()
-
     }
 
     private fun setupMap() {
-        map.controller.setZoom(15.0)
+        map.controller.setZoom(8.0)
 
         // val overlay = LatLonGridlineOverlay2()
         // map.overlays.add(overlay)

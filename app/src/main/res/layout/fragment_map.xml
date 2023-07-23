@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="?android:attr/actionBarSize"
     tools:context=".MapFragment">
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"
         titlesource="Mapnik"
         android:layout_width="match_parent"
-        android:layout_height="665dp" />
+        android:layout_height="match_parent"
+        />
 </FrameLayout>

@@ -3,12 +3,15 @@ package elfak.mosis.rmais
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -41,6 +44,7 @@ class AddOrEditFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
     }
 
     override fun onCreateView(
@@ -135,29 +139,33 @@ class AddOrEditFragment : Fragment() {
             saveButton.setText(R.string.addedit_add_button)
         }
 
-        if(referencesViewModel.selectedReference != null) {
+        if(referencesViewModel.selectedReference == null) {
             saveButton.setOnClickListener {
-                referencesViewModel.updateReference(getReference())
+                referencesViewModel.selectedReference = referencesViewModel.addReference(getReference())
 
-                referencesViewModel.selectedReference = null
                 locationViewModel.setLocation(0.0, 0.0)
                 findNavController().popBackStack()
             }
         }
         else {
             saveButton.setOnClickListener {
-                referencesViewModel.addReference(getReference())
+                referencesViewModel.selectedReference = referencesViewModel.updateReference(getReference())
 
-                referencesViewModel.selectedReference = null
                 locationViewModel.setLocation(0.0, 0.0)
                 findNavController().popBackStack()
             }
         }
 
         cancelButton.setOnClickListener {
-            referencesViewModel.selectedReference = null
             locationViewModel.setLocation(0.0, 0.0)
             findNavController().popBackStack()
+        }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        for (x in menu.children) {
+            x.isVisible = false
         }
     }
 

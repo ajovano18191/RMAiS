@@ -26,12 +26,14 @@ class ReferencesViewModel() : ViewModel() {
             return _referencesList
         }
 
-    fun addReference(reference: IReference) {
+    fun addReference(reference: IReference): IReference {
         _referencesList.add(reference)
+        return reference
     }
 
-    fun updateReference(reference: IReference) {
+    fun updateReference(reference: IReference): IReference {
         _referencesList.add(reference)
+        return reference
     }
 
     var selectedReference: IReference? = null

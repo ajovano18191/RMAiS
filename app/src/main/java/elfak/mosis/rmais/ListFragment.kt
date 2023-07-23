@@ -45,6 +45,8 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        referencesViewModel.selectedReference = null
+
         var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
         fab.show()
 
@@ -78,6 +80,12 @@ class ListFragment : Fragment() {
                     referencesViewModel.selectedReference = reference
                     alterDialog.cancel()
                     findNavController().navigate(R.id.action_ListFragment_to_AddOrEditFragment)
+                }
+
+                val closeButton: ImageButton = mView.findViewById<ImageButton>(R.id.close_button)
+                closeButton.setOnClickListener {
+                    referencesViewModel.selectedReference = null
+                    alterDialog.cancel()
                 }
             }
     }
