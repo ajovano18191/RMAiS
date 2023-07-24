@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -80,7 +79,8 @@
                 android:id="@+id/addedit_reference_number_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:inputType="text"/>
         </TableRow>
 
         <TableRow
@@ -172,7 +172,8 @@
         android:layout_below="@+id/addedit_set_location_button"
         android:layout_alignParentBottom="false"
         android:layout_marginTop="0dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        style="?android:attr/buttonBarButtonStyle">
 
         <Button
             android:id="@+id/addedit_save_button"
@@ -180,7 +181,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
-            android:text="@string/addedit_save_button" />
+            android:text="@string/addedit_save_button"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/addedit_cancel_button"
@@ -188,7 +190,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
-            android:text="@string/addedit_cancel_button" />
+            android:text="@string/addedit_cancel_button"
+            style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
 </RelativeLayout>

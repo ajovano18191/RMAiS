@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
@@ -12,11 +11,10 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/infowindow_title_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:text="Title"
+            android:layout_marginStart="5dp"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="24sp"  />
@@ -24,9 +22,9 @@
             android:id="@+id/close_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-5dp"
+            android:layout_marginStart="-5dp"
             android:backgroundTint="@android:color/transparent"
-            android:contentDescription="@string/infowindow_delete_button"
+            android:contentDescription="@string/infowindow_close_button"
             android:src="@drawable/outline_close_24" />
     </LinearLayout>
 

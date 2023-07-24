@@ -1,18 +1,18 @@
 package elfak.mosis.rmais
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,11 +23,6 @@ import elfak.mosis.rmais.data.WFFReference
 import elfak.mosis.rmais.model.LocationViewModel
 import elfak.mosis.rmais.model.ReferencesViewModel
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddOrEditFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddOrEditFragment : Fragment() {
     private val referencesViewModel: ReferencesViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
@@ -39,12 +34,17 @@ class AddOrEditFragment : Fragment() {
     private lateinit var latEditText: EditText
     private lateinit var lonEditText: EditText
 
+    private lateinit var setLocationButton: Button
+
+    private lateinit var cancelButton: Button
+    private lateinit var saveButton: Button
+
     private lateinit var wffRB: RadioButton
     private lateinit var sotaRB: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -58,79 +58,92 @@ class AddOrEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
+        val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
         fab.hide()
 
-        referencePrefixEditText = requireView().findViewById<EditText>(R.id.addedit_reference_prefix_text)
-        referenceNumberEditText = requireView().findViewById<EditText>(R.id.addedit_reference_number_text)
-        nameEditText = requireView().findViewById<EditText>(R.id.addedit_name_text)
-        locEditText = requireView().findViewById<TextView>(R.id.addedit_loc_text)
+        findViews()
+        initLatAndLon()
+        initOtherControls()
 
-        latEditText = requireView().findViewById<EditText>(R.id.addedit_lat_text)
-        lonEditText = requireView().findViewById<EditText>(R.id.addedit_log_text)
+        initSaveButton()
+        initSetLocationButton()
+        initCancelButton()
+    }
 
-        val cancelButton: Button = requireView().findViewById<Button>(R.id.addedit_cancel_button)
-        val saveButton: Button = requireView().findViewById<Button>(R.id.addedit_save_button)
-
-        latEditText.doOnTextChanged { text, start, before, count ->
-            saveButton.isEnabled = false
-            try {
-                locEditText.text = locationViewModel.GCS2QTH(text.toString().toDouble(), lonEditText.text.toString().toDouble())
-                saveButton.isEnabled = true
-            }
-            catch (e: Exception) {
-
-            }
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        for (x in menu.children) {
+            x.isVisible = false
         }
-        lonEditText.doOnTextChanged { text, start, before, count ->
-            saveButton.isEnabled = false
-            try {
-                locEditText.text = locationViewModel.GCS2QTH(latEditText.text.toString().toDouble(), text.toString().toDouble())
-                saveButton.isEnabled = true
-            }
-            catch (e: Exception) {
+    }
 
-            }
+    private val isEdit: Boolean
+        get() = referencesViewModel.selectedReference != null
+
+    private fun findViews() {
+        val view = requireView()
+        referencePrefixEditText = view.findViewById(R.id.addedit_reference_prefix_text)
+        referenceNumberEditText = view.findViewById(R.id.addedit_reference_number_text)
+        nameEditText = view.findViewById(R.id.addedit_name_text)
+        locEditText = view.findViewById(R.id.addedit_loc_text)
+
+        latEditText = view.findViewById(R.id.addedit_lat_text)
+        lonEditText = view.findViewById(R.id.addedit_log_text)
+
+        setLocationButton = view.findViewById(R.id.addedit_set_location_button)
+
+        cancelButton = view.findViewById(R.id.addedit_cancel_button)
+        saveButton = view.findViewById(R.id.addedit_save_button)
+
+        wffRB = view.findViewById(R.id.addedit_radio_button_wff)
+        sotaRB = view.findViewById(R.id.addedit_radio_button_sota)
+    }
+
+    private fun initLatAndLon() {
+        latEditText.doOnTextChanged { text, _, _, _ ->
+            setLocText(text, lonEditText.text)
         }
-
         val latObserver = Observer<Double> { lat ->
             latEditText.setText(lat.toString())
         }
         locationViewModel.lat.observe(viewLifecycleOwner, latObserver)
 
+        lonEditText.doOnTextChanged { text, _, _, _ ->
+            setLocText(latEditText.text, text)
+        }
         val lonObserver = Observer<Double> { newValue ->
             lonEditText.setText(newValue.toString())
         }
         locationViewModel.lon.observe(viewLifecycleOwner, lonObserver)
+    }
 
-        wffRB = requireView().findViewById<RadioButton>(R.id.addedit_radio_button_wff)
-        sotaRB = requireView().findViewById<RadioButton>(R.id.addedit_radio_button_sota)
+    private fun initOtherControls() {
+        if(isEdit) {
+            wffRB.isChecked = referencesViewModel.selectedReference is WFFReference
+            sotaRB.isChecked = referencesViewModel.selectedReference is SOTAReference
 
-        val setLocationButton: Button = requireView().findViewById<Button>(R.id.addedit_set_location_button)
-        setLocationButton.setOnClickListener {
-            locationViewModel.setLocation = true;
-            findNavController().navigate(R.id.action_AddOrEditFragment_to_MapFragment)
-        }
-
-
-        if(referencesViewModel.selectedReference != null) {
-            if(referencesViewModel.selectedReference is WFFReference) {
-                wffRB.isChecked = true
-            }
-            else if(referencesViewModel.selectedReference is SOTAReference) {
-                sotaRB.isChecked = true
-            }
-
-            var arrRef = referencesViewModel.selectedReference!!.reference.split('-')
+            val arrRef = referencesViewModel.selectedReference!!.reference.split('-')
             referencePrefixEditText.setText(arrRef[0])
             referenceNumberEditText.setText(arrRef[1])
+
             nameEditText.setText(referencesViewModel.selectedReference!!.name)
-            locEditText.setText(referencesViewModel.selectedReference!!.loc)
+            locEditText.text = referencesViewModel.selectedReference!!.loc
 
             if(locationViewModel.lat.value == 0.0 && locationViewModel.lon.value == 0.0) {
                 locationViewModel.setLocation(referencesViewModel.selectedReference!!.lon, referencesViewModel.selectedReference!!.lat)
             }
+        }
+    }
 
+    private fun initSetLocationButton() {
+        setLocationButton.setOnClickListener {
+            locationViewModel.setLocation = true
+            findNavController().navigate(R.id.action_AddOrEditFragment_to_MapFragment)
+        }
+    }
+
+    private fun initSaveButton() {
+        if(isEdit) {
             saveButton.isEnabled = true
             saveButton.setText(R.string.addedit_save_button)
         }
@@ -139,33 +152,29 @@ class AddOrEditFragment : Fragment() {
             saveButton.setText(R.string.addedit_add_button)
         }
 
-        if(referencesViewModel.selectedReference == null) {
-            saveButton.setOnClickListener {
-                referencesViewModel.selectedReference = referencesViewModel.addReference(getReference())
+        saveButton.setOnClickListener {
+            referencesViewModel.selectedReference = referencesViewModel.addOrUpdateReference(getReference())
 
-                locationViewModel.setLocation(0.0, 0.0)
-                findNavController().popBackStack()
-            }
+            locationViewModel.setLocation(0.0, 0.0)
+            findNavController().popBackStack()
         }
-        else {
-            saveButton.setOnClickListener {
-                referencesViewModel.selectedReference = referencesViewModel.updateReference(getReference())
+    }
 
-                locationViewModel.setLocation(0.0, 0.0)
-                findNavController().popBackStack()
-            }
-        }
-
+    private fun initCancelButton() {
         cancelButton.setOnClickListener {
             locationViewModel.setLocation(0.0, 0.0)
             findNavController().popBackStack()
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        for (x in menu.children) {
-            x.isVisible = false
+    private fun setLocText(latText: CharSequence?, lonText: CharSequence?) {
+        saveButton.isEnabled = false
+        try {
+            locEditText.text = locationViewModel.gcs2QTH(latText!!.toString().toDouble(), lonText!!.toString().toDouble())
+            saveButton.isEnabled = true
+        }
+        catch (e: Exception) {
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -186,9 +195,5 @@ class AddOrEditFragment : Fragment() {
             reference = SOTAReference(name, referenceID, loc, lat.toDouble(), lon.toDouble())
         }
         return reference!!
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 }

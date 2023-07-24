@@ -1,19 +1,15 @@
 package elfak.mosis.rmais
 
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import elfak.mosis.rmais.databinding.ActivityMainBinding
 import elfak.mosis.rmais.model.ReferencesViewModel
 
@@ -65,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         binding.fab.hide()
 
         when (item.itemId) {
-            R.id.action_settings -> true
             R.id.action_map -> {
                 binding.fab.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {

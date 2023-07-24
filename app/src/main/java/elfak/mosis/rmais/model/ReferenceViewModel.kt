@@ -1,7 +1,6 @@
 package elfak.mosis.rmais.model
 
 import android.view.View
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import elfak.mosis.rmais.R
@@ -9,8 +8,8 @@ import elfak.mosis.rmais.data.IReference
 import elfak.mosis.rmais.data.SOTAReference
 import elfak.mosis.rmais.data.WFFReference
 
-class ReferencesViewModel() : ViewModel() {
-    private var _referencesList: ArrayList<IReference> = ArrayList<IReference>()
+class ReferencesViewModel : ViewModel() {
+    private var _referencesList: ArrayList<IReference> = ArrayList()
 
     init {
         _referencesList.clear()
@@ -21,17 +20,12 @@ class ReferencesViewModel() : ViewModel() {
         _referencesList.add(SOTAReference("Tara",        "SOTA-0005", "JN93RU", 43.84695816, 19.45927238))
     }
 
-    var referencesList: ArrayList<IReference> = ArrayList<IReference>()
+    val referencesList: ArrayList<IReference>
         get() {
             return _referencesList
         }
 
-    fun addReference(reference: IReference): IReference {
-        _referencesList.add(reference)
-        return reference
-    }
-
-    fun updateReference(reference: IReference): IReference {
+    fun addOrUpdateReference(reference: IReference): IReference {
         _referencesList.add(reference)
         return reference
     }
@@ -39,7 +33,7 @@ class ReferencesViewModel() : ViewModel() {
     var selectedReference: IReference? = null
 
     companion object {
-        fun updateView(mView: View, reference: IReference) {
+        fun initOthersViews(mView: View, reference: IReference) {
             val titleText = mView.findViewById<TextView>(R.id.infowindow_title_text)
             titleText.text = "${reference.reference} ${reference.name}"
 
@@ -51,20 +45,6 @@ class ReferencesViewModel() : ViewModel() {
 
             val locText = mView.findViewById<TextView>(R.id.infowindow_loc_text)
             locText.text = reference.loc
-
-            // Here we are settings onclick listeners for the buttons in the layouts.
-
-            val activateButton = mView.findViewById<ImageButton>(R.id.activate_button)
-            val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
-            val deleteButton = mView.findViewById<ImageButton>(R.id.delete_button)
-            val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
-            editButton.setOnClickListener {
-
-            }
-            deleteButton.setOnClickListener {
-
-            }
-
         }
     }
 }

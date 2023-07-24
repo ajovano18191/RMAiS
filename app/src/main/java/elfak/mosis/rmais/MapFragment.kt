@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -23,25 +23,14 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-import java.lang.String
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MapFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MapFragment : Fragment() {
-    lateinit var map: MapView
+    private lateinit var map: MapView
     private val referencesViewModel: ReferencesViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,16 +43,26 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById<FloatingActionButton>(R.id.fab)
+        val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
         fab.show()
 
-        var ctx: Context? = activity?.applicationContext
+        initMap()
+        checkPermissions()
+
+        showReferencesOnMap()
+    }
+
+    private fun initMap() {
+        val ctx: Context? = activity?.applicationContext
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences((ctx!!)))
-        map = requireView().findViewById<MapView>(R.id.map)
+        map = requireView().findViewById(R.id.map)
         map.overlays.clear()
         map.setMultiTouchControls(true)
+    }
+
+    private fun checkPermissions() {
         if(ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissionLauncher.launch(
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             )
@@ -71,53 +70,6 @@ class MapFragment : Fragment() {
         else {
             setupMap()
         }
-
-        for(reference in referencesViewModel.referencesList) {
-            var marker = Marker(map)
-            marker.position = GeoPoint(reference.lat, reference.lon)
-            marker.title = reference.toString()
-            marker.icon = resources.getDrawable(reference.pinIcon)
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-            marker.infoWindow = ReferenceWindow(map, reference, referencesViewModel)
-            if(reference == referencesViewModel.selectedReference) {
-                marker.showInfoWindow()
-            }
-            map.overlays.add(marker)
-        }
-        map.invalidate()
-    }
-
-    private fun setupMap() {
-        map.controller.setZoom(8.0)
-
-        // val overlay = LatLonGridlineOverlay2()
-        // map.overlays.add(overlay)
-
-        if(locationViewModel.setLocation) {
-            setOnMapClickOverlay()
-        }
-        var startPoint: GeoPoint = GeoPoint(43.753629, 20.090579)
-        if(referencesViewModel.selectedReference == null) {
-            startPoint = setMyLocationOverlay()
-        }
-        else {
-            startPoint = GeoPoint(referencesViewModel.selectedReference!!.lat, referencesViewModel.selectedReference!!.lon)
-        }
-        map.controller.animateTo(startPoint)
-    }
-
-    private fun setMyLocationOverlay(): GeoPoint {
-        val provider = GpsMyLocationProvider(activity)
-        provider.addLocationSource(LocationManager.NETWORK_PROVIDER)
-        var myLocationOverlay = MyLocationNewOverlay(provider, map)
-        myLocationOverlay.enableMyLocation()
-        myLocationOverlay.enableFollowLocation()
-        var gp: GeoPoint = GeoPoint(0.0, 0.0)
-        myLocationOverlay.runOnFirstFix(Runnable {
-            gp = GeoPoint(myLocationOverlay.lastFix.latitude, myLocationOverlay.lastFix.longitude)
-        })
-        map.overlays.add(myLocationOverlay)
-        return gp
     }
 
     private val requestPermissionLauncher =
@@ -128,12 +80,47 @@ class MapFragment : Fragment() {
                 setMyLocationOverlay()
                 setOnMapClickOverlay()
             }
+        }
+
+    private fun setupMap() {
+        map.controller.setZoom(8.0)
+
+        // val overlay = LatLonGridlineOverlay2()
+        // map.overlays.add(overlay)
+
+        if(locationViewModel.setLocation) {
+            setOnMapClickOverlay()
+        }
+
+        val startPoint = if(referencesViewModel.selectedReference == null) {
+            setMyLocationOverlay()
+        } else {
+            GeoPoint(referencesViewModel.selectedReference!!.lat, referencesViewModel.selectedReference!!.lon)
+        }
+        map.controller.animateTo(startPoint)
+    }
+
+    private fun setMyLocationOverlay(): GeoPoint {
+        val provider = GpsMyLocationProvider(activity)
+        provider.addLocationSource(LocationManager.NETWORK_PROVIDER)
+
+        val myLocationOverlay = MyLocationNewOverlay(provider, map)
+        myLocationOverlay.enableMyLocation()
+        myLocationOverlay.enableFollowLocation()
+
+        var userLocation = GeoPoint(43.753629, 20.090579)
+        myLocationOverlay.runOnFirstFix {
+            userLocation = GeoPoint(myLocationOverlay.lastFix.latitude, myLocationOverlay.lastFix.longitude)
+        }
+        map.overlays.add(myLocationOverlay)
+
+        return userLocation
     }
 
     private fun setOnMapClickOverlay() {
-        var receive = object:MapEventsReceiver{
+        val receive = object:MapEventsReceiver{
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
-                locationViewModel.setLocation(p!!.longitude, p!!.latitude)
+                locationViewModel.setLocation(p!!.longitude, p.latitude)
                 findNavController().popBackStack()
                 return true
             }
@@ -142,8 +129,24 @@ class MapFragment : Fragment() {
                 return false
             }
         }
-        var overlayEvents = MapEventsOverlay(receive)
+        val overlayEvents = MapEventsOverlay(receive)
         map.overlays.add(overlayEvents)
+    }
+
+    private fun showReferencesOnMap() {
+        for(reference in referencesViewModel.referencesList) {
+            val marker = Marker(map)
+            marker.position = GeoPoint(reference.lat, reference.lon)
+            marker.title = reference.toString()
+            marker.icon = ResourcesCompat.getDrawable(resources, reference.pinIcon, null)
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            marker.infoWindow = ReferenceWindow(map, reference, referencesViewModel)
+            if(reference == referencesViewModel.selectedReference) {
+                marker.showInfoWindow()
+            }
+            map.overlays.add(marker)
+        }
+        map.invalidate()
     }
 
     override fun onResume() {
@@ -155,5 +158,4 @@ class MapFragment : Fragment() {
         super.onPause()
         map.onPause()
     }
-
 }
