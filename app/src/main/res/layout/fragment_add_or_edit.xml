@@ -181,8 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
-            android:text="@string/addedit_save_button"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/addedit_save_button" />
 
         <Button
             android:id="@+id/addedit_cancel_button"
@@ -190,8 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
-            android:text="@string/addedit_cancel_button"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/addedit_cancel_button" />
     </LinearLayout>
 
 </RelativeLayout>

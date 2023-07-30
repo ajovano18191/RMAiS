@@ -9,20 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import elfak.mosis.rmais.model.LocationViewModel
-import elfak.mosis.rmais.model.ReferencesViewModel
+import elfak.mosis.rmais.reference.model.LocationViewModel
+import elfak.mosis.rmais.reference.model.ReferencesViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
-import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
@@ -58,6 +56,7 @@ class MapFragment : Fragment() {
         map = requireView().findViewById(R.id.map)
         map.overlays.clear()
         map.setMultiTouchControls(true)
+        mapView = map
     }
 
     private fun checkPermissions() {
@@ -134,17 +133,8 @@ class MapFragment : Fragment() {
     }
 
     private fun showReferencesOnMap() {
-        for(reference in referencesViewModel.referencesList) {
-            val marker = Marker(map)
-            marker.position = GeoPoint(reference.lat, reference.lon)
-            marker.title = reference.toString()
-            marker.icon = ResourcesCompat.getDrawable(resources, reference.pinIcon, null)
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-            marker.infoWindow = ReferenceWindow(map, reference, referencesViewModel)
-            if(reference == referencesViewModel.selectedReference) {
-                marker.showInfoWindow()
-            }
-            map.overlays.add(marker)
+        for(ref in referencesViewModel.referencesList) {
+            ref.referenceMarker.create(referencesViewModel)
         }
         map.invalidate()
     }
@@ -157,5 +147,14 @@ class MapFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         map.onPause()
+    }
+
+    override fun onDestroyView() {
+        mapView = null
+        super.onDestroyView()
+    }
+
+    companion object {
+        var mapView: MapView? = null
     }
 }

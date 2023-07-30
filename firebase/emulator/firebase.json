@@ -1,0 +1,28 @@
+{
+  "emulators": {
+    "auth": {
+	  "host": "192.168.37.100",
+      "port": 9099
+    },
+    "database": {
+	  "host": "192.168.37.100",
+      "port": 9000
+    },
+    "storage": {
+	  "host": "192.168.37.100",
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true,
+	  "host": "192.168.37.100",
+      "port": 4000
+    },
+    "singleProjectMode": true
+  },
+  "storage": {
+	"rules": "storage.rules"
+  },
+  "database": {
+	  "rules": "database.rules.json"
+  }
+}

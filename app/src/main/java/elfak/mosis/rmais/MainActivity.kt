@@ -10,8 +10,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
-import elfak.mosis.rmais.model.ReferencesViewModel
+import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +48,10 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_MapFragment_to_AddOrEditFragment)
             }
         }
+
+        Firebase.database.useEmulator("10.17.2.42", 9000)
+        Firebase.auth.useEmulator("10.17.2.42", 9099)
+        Firebase.storage.useEmulator("10.17.2.42", 9199)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
