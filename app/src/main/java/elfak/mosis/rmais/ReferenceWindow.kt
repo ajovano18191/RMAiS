@@ -2,19 +2,19 @@ package elfak.mosis.rmais
 
 import android.widget.ImageButton
 import androidx.navigation.findNavController
-import elfak.mosis.rmais.data.IReference
-import elfak.mosis.rmais.model.ReferencesViewModel
+import elfak.mosis.rmais.reference.data.Reference
+import elfak.mosis.rmais.reference.model.ReferencesViewModel
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
-class ReferenceWindow(private val mapView: MapView, private val reference: IReference, private val referencesViewModel: ReferencesViewModel) :
+class ReferenceWindow(private val mapView: MapView, private val reference: Reference, private val referencesViewModel: ReferencesViewModel) :
     InfoWindow(R.layout.info_window, mapView) {
 
     override fun onOpen(item: Any?) {
         // Following command
         closeAllInfoWindowsOn(mapView)
 
-        ReferencesViewModel.initOthersViews(mView, reference)
+        reference.initViews(mView)
 
         initEditButton()
         initCloseButton()

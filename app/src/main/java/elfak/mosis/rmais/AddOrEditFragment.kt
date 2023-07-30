@@ -17,11 +17,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import elfak.mosis.rmais.data.IReference
-import elfak.mosis.rmais.data.SOTAReference
-import elfak.mosis.rmais.data.WFFReference
-import elfak.mosis.rmais.model.LocationViewModel
-import elfak.mosis.rmais.model.ReferencesViewModel
+import elfak.mosis.rmais.reference.data.Reference
+import elfak.mosis.rmais.reference.data.SOTAReference
+import elfak.mosis.rmais.reference.data.WFFReference
+import elfak.mosis.rmais.reference.model.LocationViewModel
+import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 class AddOrEditFragment : Fragment() {
     private val referencesViewModel: ReferencesViewModel by activityViewModels()
@@ -154,7 +154,6 @@ class AddOrEditFragment : Fragment() {
 
         saveButton.setOnClickListener {
             referencesViewModel.selectedReference = referencesViewModel.addOrUpdateReference(getReference())
-
             locationViewModel.setLocation(0.0, 0.0)
             findNavController().popBackStack()
         }
@@ -178,7 +177,7 @@ class AddOrEditFragment : Fragment() {
         }
     }
 
-    private fun getReference() : IReference {
+    private fun getReference() : Reference {
         val referencePrefix: String = referencePrefixEditText.text.toString()
         val referenceNumber: String = referenceNumberEditText.text.toString().padStart(4, '0')
         val name: String = nameEditText.text.toString()
@@ -186,13 +185,13 @@ class AddOrEditFragment : Fragment() {
         val lat: String = latEditText.text.toString()
         val lon: String = lonEditText.text.toString()
 
-        var reference: IReference? = null
+        var reference: Reference? = null
         val referenceID = "$referencePrefix-$referenceNumber"
         if(wffRB.isChecked) {
-            reference = WFFReference(name, referenceID, loc, lat.toDouble(), lon.toDouble())
+            reference = WFFReference("", name, referenceID, loc, lat.toDouble(), lon.toDouble())
         }
         else if(sotaRB.isChecked) {
-            reference = SOTAReference(name, referenceID, loc, lat.toDouble(), lon.toDouble())
+            reference = SOTAReference("", name, referenceID, loc, lat.toDouble(), lon.toDouble())
         }
         return reference!!
     }

@@ -1,4 +1,4 @@
-package elfak.mosis.rmais.model
+package elfak.mosis.rmais.reference.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

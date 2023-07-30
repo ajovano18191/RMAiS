@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import elfak.mosis.rmais.data.IReference
-import elfak.mosis.rmais.model.ReferencesViewModel
+import elfak.mosis.rmais.reference.data.Reference
+import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 
 class ListFragment : Fragment() {
@@ -45,18 +45,22 @@ class ListFragment : Fragment() {
 
     private fun initReferencesList(view: View) {
         val referencesList: ListView = requireView().findViewById(R.id.list)
-        referencesList.adapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
+        val arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
+        referencesViewModel.arrayAdapter = arrAdapter
+        referencesList.adapter = arrAdapter
+
+
 
         referencesList.onItemClickListener =
             AdapterView.OnItemClickListener { p0, _, p2, _ ->
-                val reference: IReference = p0?.adapter?.getItem(p2) as IReference
+                val reference: Reference = p0?.adapter?.getItem(p2) as Reference
 
                 mView = inflateView()
                 alertDialog = AlertDialog.Builder(context)
                     .setView(mView)
                     .show()
 
-                ReferencesViewModel.initOthersViews(mView, reference)
+                reference.initViews(mView)
 
                 initMapButton(reference)
                 initEditButton(reference)
@@ -70,7 +74,7 @@ class ListFragment : Fragment() {
         return inflater.inflate(R.layout.info_window, null)
     }
 
-    private fun initMapButton(reference: IReference) {
+    private fun initMapButton(reference: Reference) {
         val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
         mapButton.visibility = View.VISIBLE
         mapButton.setOnClickListener {
@@ -80,7 +84,7 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun initEditButton(reference: IReference) {
+    private fun initEditButton(reference: Reference) {
         val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
         editButton.setOnClickListener {
             referencesViewModel.selectedReference = reference

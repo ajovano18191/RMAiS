@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1088447638999",
+    "firebase_url": "https://rmais-b4f61-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "rmais-b4f61",
+    "storage_bucket": "rmais-b4f61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088447638999:android:cd004d19981c8e45ffaf92",
+        "android_client_info": {
+          "package_name": "elfak.mosis.rmais"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088447638999-5vid32nbtbfs6ndvc6o1tj6uqibt2veh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcjjZHKlQebpXzb_crjcx_U4cR7JswR6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088447638999-5vid32nbtbfs6ndvc6o1tj6uqibt2veh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
