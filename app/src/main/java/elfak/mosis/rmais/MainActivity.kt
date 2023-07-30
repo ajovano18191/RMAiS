@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Firebase.database.useEmulator("10.0.2.2", 9000)
-        Firebase.auth.useEmulator("10.0.2.2", 9099)
-        Firebase.storage.useEmulator("10.0.2.2", 9199)
+        Firebase.database.useEmulator("10.17.2.42", 9000)
+        Firebase.auth.useEmulator("10.17.2.42", 9099)
+        Firebase.storage.useEmulator("10.17.2.42", 9199)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
