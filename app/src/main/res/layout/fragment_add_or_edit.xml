@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddOrEditFragment"
+    android:layout_marginBottom="?android:attr/actionBarSize"
     android:orientation="vertical">
 
     <RadioGroup
@@ -167,13 +168,14 @@
         android:text="@string/addedit_set_location_button" />
 
     <LinearLayout
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/addedit_set_location_button"
         android:layout_alignParentBottom="false"
         android:layout_marginTop="0dp"
-        android:orientation="horizontal"
-        style="?android:attr/buttonBarButtonStyle">
+        android:gravity="bottom"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/addedit_save_button"

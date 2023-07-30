@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_MapFragment_to_AddOrEditFragment"
             app:destination="@id/AddOrEditFragment" />
+        <action
+            android:id="@+id/action_MapFragment_to_SearchAndFilterFragment"
+            app:destination="@id/SearchAndFilterFragment" />
     </fragment>
 
     <fragment
@@ -63,6 +66,9 @@
         <action
             android:id="@+id/action_ListFragment_to_AddOrEditFragment"
             app:destination="@id/AddOrEditFragment" />
+        <action
+            android:id="@+id/action_ListFragment_to_SearchAndFilterFragment"
+            app:destination="@id/SearchAndFilterFragment" />
     </fragment>
 
     <fragment
@@ -75,6 +81,19 @@
             app:destination="@id/MapFragment" />
         <action
             android:id="@+id/action_AddOrEditFragment_to_ListFragment"
+            app:destination="@id/ListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SearchAndFilterFragment"
+        android:name="elfak.mosis.rmais.SearchAndFilterFragment"
+        android:label="@string/search_and_filter_fragment_label"
+        tools:layout="@layout/fragment_search_and_filter">
+        <action
+            android:id="@+id/action_SearchAndFilterFragment_to_MapFragment"
+            app:destination="@id/MapFragment" />
+        <action
+            android:id="@+id/action_SearchAndFilterFragment_to_ListFragment"
             app:destination="@id/ListFragment" />
     </fragment>
 </navigation>

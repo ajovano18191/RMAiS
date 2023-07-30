@@ -40,8 +40,16 @@
     <string name="addedit_save_button">Save</string>
     <string name="addedit_cancel_button">Cancel</string>
 
+    <string name="search_and_filter_fragment_label">Search and Filter</string>
+    <string name="action_search_and_filter_">Search and Filter</string>
+    <string name="search_and_filter_switch_wff">WFF</string>
+    <string name="search_and_filter_switch_sota">SOTA</string>
+    <string name="search_and_filter_radius_label">Radius:</string>
+    <string name="search_and_filter_apply_button">Apply</string>
+    <string name="search_and_filter_cancel_button">Cancel</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
     </string>
+
 </resources>

@@ -77,6 +77,9 @@ class MainActivity : AppCompatActivity() {
                 else if(navController.currentDestination?.id == R.id.ListFragment) {
                     navController.navigate(R.id.action_ListFragment_to_MapFragment)
                 }
+                else if(navController.currentDestination?.id == R.id.SearchAndFilterFragment) {
+                    navController.navigate(R.id.action_SearchAndFilterFragment_to_MapFragment)
+                }
             }
             R.id.action_list -> {
                 binding.fab.show()
@@ -85,6 +88,17 @@ class MainActivity : AppCompatActivity() {
                 }
                 else if(navController.currentDestination?.id == R.id.MapFragment) {
                     navController.navigate(R.id.action_MapFragment_to_ListFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.SearchAndFilterFragment) {
+                    navController.navigate(R.id.action_SearchAndFilterFragment_to_ListFragment)
+                }
+            }
+            R.id.action_search_and_filter -> {
+                if(navController.currentDestination?.id == R.id.MapFragment) {
+                    navController.navigate(R.id.action_MapFragment_to_SearchAndFilterFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.ListFragment) {
+                    navController.navigate(R.id.action_ListFragment_to_SearchAndFilterFragment)
                 }
             }
         }
