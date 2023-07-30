@@ -103,4 +103,18 @@ internal class ReferenceDB(private val referencesViewModel: ReferencesViewModel)
             referencesViewModel.arrayAdapter?.notifyDataSetChanged()
         }
     }
+
+    fun addOrUpdate(reference: Reference) {
+        var dbRefForWrite = dbRef.push()
+        if(reference.key.isNotEmpty()) {
+            dbRefForWrite = dbRef.child(reference.key)
+        }
+        dbRefForWrite.setValue(reference)
+    }
+
+    fun delete(reference: Reference) {
+        if(reference.key.isNotEmpty()) {
+            dbRef.child(reference.key).setValue(null)
+        }
+    }
 }

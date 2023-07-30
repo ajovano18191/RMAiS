@@ -17,6 +17,7 @@ class ReferenceWindow(private val mapView: MapView, private val reference: Refer
         reference.initViews(mView)
 
         initEditButton()
+        initDeleteButton()
         initCloseButton()
     }
 
@@ -25,6 +26,14 @@ class ReferenceWindow(private val mapView: MapView, private val reference: Refer
         editButton.setOnClickListener {
             referencesViewModel.selectedReference = reference
             mapView.findNavController().navigate(R.id.action_MapFragment_to_AddOrEditFragment)
+        }
+    }
+
+    private fun initDeleteButton() {
+        val deleteButton = mView.findViewById<ImageButton>(R.id.delete_button)
+        deleteButton.setOnClickListener {
+            referencesViewModel.deleteReference(reference)
+            this.close()
         }
     }
 

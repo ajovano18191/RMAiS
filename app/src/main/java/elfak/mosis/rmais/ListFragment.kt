@@ -64,6 +64,7 @@ class ListFragment : Fragment() {
 
                 initMapButton(reference)
                 initEditButton(reference)
+                initDeleteButton(reference)
                 initCloseButton()
             }
     }
@@ -90,6 +91,14 @@ class ListFragment : Fragment() {
             referencesViewModel.selectedReference = reference
             alertDialog.cancel()
             findNavController().navigate(R.id.action_ListFragment_to_AddOrEditFragment)
+        }
+    }
+
+    private fun initDeleteButton(reference: Reference) {
+        val deleteButton = mView.findViewById<ImageButton>(R.id.delete_button)
+        deleteButton.setOnClickListener {
+            referencesViewModel.deleteReference(reference)
+            alertDialog.cancel()
         }
     }
 

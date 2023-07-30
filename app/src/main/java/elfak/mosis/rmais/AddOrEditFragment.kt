@@ -187,11 +187,14 @@ class AddOrEditFragment : Fragment() {
 
         var reference: Reference? = null
         val referenceID = "$referencePrefix-$referenceNumber"
+
+        val key = referencesViewModel.selectedReference?.key ?: ""
+
         if(wffRB.isChecked) {
-            reference = WFFReference("", name, referenceID, loc, lat.toDouble(), lon.toDouble())
+            reference = WFFReference(key, name, referenceID, loc, lat.toDouble(), lon.toDouble())
         }
         else if(sotaRB.isChecked) {
-            reference = SOTAReference("", name, referenceID, loc, lat.toDouble(), lon.toDouble())
+            reference = SOTAReference(key, name, referenceID, loc, lat.toDouble(), lon.toDouble())
         }
         return reference!!
     }

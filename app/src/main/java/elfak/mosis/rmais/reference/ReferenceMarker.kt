@@ -8,7 +8,7 @@ import elfak.mosis.rmais.reference.model.ReferencesViewModel
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 
-internal class ReferenceMarker(private val reference: Reference) {
+class ReferenceMarker(private val reference: Reference) {
     private var marker: Marker? = null
 
     fun create(referencesViewModel: ReferencesViewModel, infoWindowIsOpened: Boolean = false) {

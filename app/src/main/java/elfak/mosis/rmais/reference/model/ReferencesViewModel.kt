@@ -16,10 +16,15 @@ class ReferencesViewModel : ViewModel() {
 
     private val referenceDB = ReferenceDB(this)
 
-    fun addOrUpdateReference(reference: Reference?): Reference? {
-        // dbRef.push().setValue(reference)
-        //myRef.setValue(reference)
+    fun addOrUpdateReference(reference: Reference): Reference {
+        referenceDB.addOrUpdate(reference)
+        arrayAdapter?.notifyDataSetChanged()
         return reference
+    }
+
+    fun deleteReference(reference: Reference) {
+        referenceDB.delete(reference)
+        arrayAdapter?.notifyDataSetChanged()
     }
 
     private var selectedReferenceIndex: Int = -1

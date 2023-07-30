@@ -2,11 +2,12 @@ package elfak.mosis.rmais.reference.data
 
 import android.view.View
 import android.widget.TextView
+import com.google.firebase.database.Exclude
 import elfak.mosis.rmais.R
 import elfak.mosis.rmais.reference.ReferenceMarker
 
 abstract class Reference (
-    @Transient
+    @get:Exclude
     open var key: String = "",
     open val name: String = "",
     open val reference: String = "",
@@ -17,7 +18,7 @@ abstract class Reference (
     abstract var pinIcon: Int
     abstract var type: String
 
-    @Transient
+    @get:Exclude
     internal val referenceMarker = ReferenceMarker(this)
 
     fun initViews(mView: View) {
