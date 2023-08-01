@@ -42,9 +42,25 @@
 
     <string name="search_and_filter_fragment_label">Search and Filter</string>
     <string name="action_search_and_filter_">Search and Filter</string>
+    <string name="search_and_filter_clear_all_button">Clear all filters</string>
+    <string name="search_and_filter_type_label">Reference type:</string>
     <string name="search_and_filter_switch_wff">WFF</string>
     <string name="search_and_filter_switch_sota">SOTA</string>
+    <string name="search_and_filter_reference_label">Reference:</string>
+    <string name="search_and_filter_name_label">Name:</string>
+    <string name="search_and_filter_loc_label">QTH Loc:</string>
     <string name="search_and_filter_radius_label">Radius:</string>
+    <string name="search_and_filter_sort_label">Sort by:</string>
+    <string-array name="search_and_filter_sort_field">
+        <item>Reference</item>
+        <item>Name</item>
+        <item>QTH Loc</item>
+        <item>Radius</item>
+    </string-array>
+    <string-array name="search_and_filter_sort_direction">
+        <item>ASC</item>
+        <item>DESC</item>
+    </string-array>
     <string name="search_and_filter_apply_button">Apply</string>
     <string name="search_and_filter_cancel_button">Cancel</string>
 
