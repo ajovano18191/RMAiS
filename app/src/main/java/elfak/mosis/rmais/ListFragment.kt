@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ListView
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,7 @@ class ListFragment : Fragment() {
 
     private lateinit var mView: View
     private lateinit var alertDialog: AlertDialog
+    private lateinit var referencesList: ListView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +43,43 @@ class ListFragment : Fragment() {
         referencesViewModel.selectedReference = null
 
         initReferencesList(view)
+        initSearchView(view)
+    }
+
+    private fun initSearchView(view: View) {
+        val searchView = view.findViewById<SearchView>(R.id.list_search)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                var arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
+
+                if(newText.isNotEmpty()) {
+                    val filteredReferences = ArrayList<Reference>()
+
+                    for(ref in referencesViewModel.referencesList) {
+                        if (ref.toString().contains(newText)) {
+                            filteredReferences.add(ref)
+                        }
+                    }
+
+                    arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, filteredReferences)
+                }
+                else {
+                    referencesViewModel.arrayAdapter = arrAdapter
+                }
+
+                referencesList.adapter = arrAdapter
+
+                return true
+            }
+        })
     }
 
     private fun initReferencesList(view: View) {
-        val referencesList: ListView = requireView().findViewById(R.id.list)
+        referencesList = requireView().findViewById(R.id.list)
         val arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
         referencesViewModel.arrayAdapter = arrAdapter
         referencesList.adapter = arrAdapter
