@@ -1,6 +1,5 @@
 package elfak.mosis.rmais
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +15,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
+import elfak.mosis.rmais.reference.FilterDialog
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -50,16 +50,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.fabSearch.hide()
-        binding.fabSearch.setOnClickListener {
-            var alertDialog = AlertDialog.Builder(it.context)
-
-                .show()
-        }
-
         Firebase.database.useEmulator("10.17.2.42", 9000)
         Firebase.auth.useEmulator("10.17.2.42", 9099)
         Firebase.storage.useEmulator("10.17.2.42", 9199)
+
+        val filterDialog = FilterDialog(referencesViewModel)
+        binding.fabSearch.hide()
+        binding.fabSearch.setOnClickListener {
+
+            filterDialog.show(it.context)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

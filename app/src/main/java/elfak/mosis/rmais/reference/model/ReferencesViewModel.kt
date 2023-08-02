@@ -14,7 +14,7 @@ class ReferencesViewModel : ViewModel() {
 
     var arrayAdapter: ArrayAdapter<Reference>? = null
 
-    private val referenceDB = ReferenceDB(this)
+    val referenceDB = ReferenceDB(this)
 
     fun addOrUpdateReference(reference: Reference): Reference {
         referenceDB.addOrUpdate(reference)
