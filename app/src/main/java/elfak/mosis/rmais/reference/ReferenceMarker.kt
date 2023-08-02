@@ -47,7 +47,7 @@ class ReferenceMarker(private val reference: Reference) {
                     overlay.closeInfoWindow()
                     MapFragment.mapView?.overlays?.remove(overlay)
                     MapFragment.mapView?.invalidate()
-                    break
+                    //break
                 }
             }
         }

@@ -10,6 +10,14 @@ import elfak.mosis.rmais.reference.model.ReferencesViewModel
 class ReferenceDB(referencesViewModel: ReferencesViewModel) {
 
     var filter: IFilter = NoFilter(referencesViewModel)
+        set(value) {
+            dbRef.removeEventListener(field)
+            for(ref in field.referencesViewModel.referencesList) {
+                ref.referenceMarker.remove()
+            }
+            field.referencesViewModel.referencesList.clear()
+            field = value
+        }
 
     fun addOrUpdate(reference: Reference) {
         var dbRefForWrite = dbRef.push()

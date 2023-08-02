@@ -22,16 +22,24 @@ interface IFilter: ChildEventListener {
     }
 
     override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-        for(ref in referencesViewModel.referencesList) {
-            if(ref.key == snapshot.key) {
-                val ind = referencesViewModel.referencesList.indexOf(ref)
+        val ref: Reference? = getTypedReference(snapshot)
+        if(ref != null) {
+                val ind = refInd(ref)
                 if(ind >= 0) {
                     replaceReference(ind, snapshot)
                 }
-                break
-            }
         }
         referencesViewModel.arrayAdapter?.notifyDataSetChanged()
+    }
+
+    fun refInd(ref: Reference): Int {
+        val cnt = referencesViewModel.referencesList.count() - 1
+        for(i in 0..cnt) {
+            if(ref.key == referencesViewModel.referencesList[i].key) {
+                return i
+            }
+        }
+        return -1
     }
 
     override fun onChildRemoved(snapshot: DataSnapshot) {

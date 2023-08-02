@@ -9,7 +9,6 @@ class StringFilter(
     override val referencesViewModel: ReferencesViewModel) : IFilter
 {
     init {
-        referencesViewModel.referencesList.clear()
         val dbRef = ReferenceDB.dbRef.orderByChild(field).startAt(value).endAt(value + "z")
         dbRef.addChildEventListener(this)
 

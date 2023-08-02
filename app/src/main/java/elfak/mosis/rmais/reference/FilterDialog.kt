@@ -10,8 +10,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import elfak.mosis.rmais.R
 import elfak.mosis.rmais.reference.filter.StringFilter
-import elfak.mosis.rmais.reference.filter.IFilter
 import elfak.mosis.rmais.reference.filter.NoFilter
+import elfak.mosis.rmais.reference.filter.RadiusFilter
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 class FilterDialog(private val referencesViewModel: ReferencesViewModel) {
@@ -57,31 +57,30 @@ class FilterDialog(private val referencesViewModel: ReferencesViewModel) {
             val selectedField = spinner.selectedItem.toString()
             val valueText: EditText = alertDialog.findViewById(R.id.filter_value_text)
             selectedValue = valueText.text.toString()
-            referencesViewModel.referenceDB.filter = chooseFilter(selectedField)
+            setFilter(selectedField)
             alertDialog.cancel()
         }
     }
 
-    private fun chooseFilter(field: String): IFilter {
-        var filter: IFilter = NoFilter(referencesViewModel)
+    private fun setFilter(field: String) {
+        referencesViewModel.referenceDB.filter = NoFilter(referencesViewModel)
         when(field) {
             alertDialog.context.resources.getString(R.string.filter_spinner_type) -> {
-                filter = StringFilter("type", selectedValue, referencesViewModel)
+                referencesViewModel.referenceDB.filter = StringFilter("type", selectedValue, referencesViewModel)
             }
             alertDialog.context.resources.getString(R.string.filter_spinner_reference) -> {
-                filter = StringFilter("reference", selectedValue, referencesViewModel)
+                referencesViewModel.referenceDB.filter = StringFilter("reference", selectedValue, referencesViewModel)
             }
             alertDialog.context.resources.getString(R.string.filter_spinner_name) -> {
-                filter = StringFilter("name", selectedValue, referencesViewModel)
+                referencesViewModel.referenceDB.filter = StringFilter("name", selectedValue, referencesViewModel)
             }
             alertDialog.context.resources.getString(R.string.filter_spinner_QTH_Loc) -> {
-                filter = StringFilter("loc", selectedValue, referencesViewModel)
+                referencesViewModel.referenceDB.filter = StringFilter("loc", selectedValue, referencesViewModel)
             }
             alertDialog.context.resources.getString(R.string.filter_spinner_radius) -> {
-
+                referencesViewModel.referenceDB.filter = RadiusFilter(selectedValue.toDouble(), referencesViewModel)
             }
         }
-        return filter
     }
 
     private fun initClearAllButton() {
