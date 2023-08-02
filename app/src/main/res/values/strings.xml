@@ -40,7 +40,18 @@
     <string name="addedit_save_button">Save</string>
     <string name="addedit_cancel_button">Cancel</string>
 
-
+    <string name="filter_title">FILTER</string>
+    <string name="filter_field">Field:</string>
+    <string-array name="filter_fields">
+        <item>Type</item>
+        <item>Reference</item>
+        <item>Name</item>
+        <item>QTH Loc</item>
+        <item>Radius</item>
+    </string-array>
+    <string name="filter_value">Value:</string>
+    <string name="filter_clear_all_button">Clear all filters</string>
+    <string name="filter_apply_button">Apply filters</string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
     </string>
