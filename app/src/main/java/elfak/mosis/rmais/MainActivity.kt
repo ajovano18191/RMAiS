@@ -1,6 +1,8 @@
 package elfak.mosis.rmais
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -10,6 +12,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -17,6 +23,7 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
 import elfak.mosis.rmais.reference.FilterDialog
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
+import org.osmdroid.util.GeoPoint
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +34,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+
+        Firebase.database.useEmulator("10.17.2.42", 9000)
+        Firebase.auth.useEmulator("10.17.2.42", 9099)
+        Firebase.storage.useEmulator("10.17.2.42", 9199)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -50,10 +61,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Firebase.database.useEmulator("10.17.2.42", 9000)
-        Firebase.auth.useEmulator("10.17.2.42", 9099)
-        Firebase.storage.useEmulator("10.17.2.42", 9199)
-
         val filterDialog = FilterDialog(referencesViewModel)
         binding.fabSearch.hide()
         binding.fabSearch.setOnClickListener {
@@ -61,6 +68,28 @@ class MainActivity : AppCompatActivity() {
             filterDialog.show(it.context)
         }
 
+        subToUserLocation(referencesViewModel)
+    }
+
+    @SuppressLint("MissingPermission")
+    fun subToUserLocation(referencesViewModel: ReferencesViewModel) {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val locationRequest = LocationRequest()
+        locationRequest.interval = 60000
+        locationRequest.fastestInterval = 60000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                if(p0.lastLocation != null) {
+                    referencesViewModel.userLocation =
+                        GeoPoint(p0.lastLocation!!.latitude, p0.lastLocation!!.longitude)
+                }
+            }
+        }
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

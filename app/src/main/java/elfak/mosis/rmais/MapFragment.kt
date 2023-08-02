@@ -41,10 +41,10 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
-        fab.show()
-        val fabSearch: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab_search)
-        fabSearch.show()
+        val fab: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab)
+        fab?.show()
+        val fabSearch: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab_search)
+        fabSearch?.show()
 
         initMap()
         checkPermissions()

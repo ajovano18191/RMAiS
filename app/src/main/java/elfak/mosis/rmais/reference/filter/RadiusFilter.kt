@@ -4,14 +4,13 @@ import com.google.firebase.database.DataSnapshot
 import elfak.mosis.rmais.reference.ReferenceDB
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
-import org.osmdroid.util.GeoPoint
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-class RadiusFilter(private val radius: Double, override val referencesViewModel: ReferencesViewModel): IFilter {
+class RadiusFilter(val radius: Double, override val referencesViewModel: ReferencesViewModel): IFilter {
     init {
         ReferenceDB.dbRef.addChildEventListener(this)
     }
@@ -25,6 +24,7 @@ class RadiusFilter(private val radius: Double, override val referencesViewModel:
             else {
                 ref.referenceMarker.remove()
             }
+            referencesViewModel.arrayAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -41,8 +41,7 @@ class RadiusFilter(private val radius: Double, override val referencesViewModel:
     }
 
     private fun calculateDistance(ref: Reference): Double {
-        val testGP = GeoPoint(43.753629, 20.090579)
-
+        val testGP = referencesViewModel.userLocation
         val dLat = Math.toRadians(ref.lat - testGP.latitude)
         val dLon = Math.toRadians(ref.lon - testGP.longitude)
         val originLat = Math.toRadians(testGP.latitude)

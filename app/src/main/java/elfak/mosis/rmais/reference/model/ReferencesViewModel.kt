@@ -4,9 +4,19 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModel
 import elfak.mosis.rmais.reference.ReferenceDB
 import elfak.mosis.rmais.reference.data.Reference
+import elfak.mosis.rmais.reference.filter.RadiusFilter
+import org.osmdroid.util.GeoPoint
 
 class ReferencesViewModel : ViewModel() {
-
+    var userLocation = GeoPoint(43.753629, 20.090579)
+        set(value) {
+            if(referenceDB.filter is RadiusFilter) {
+                if(value.latitude != field.latitude || value.longitude != field.longitude) {
+                    referenceDB.filter = RadiusFilter((referenceDB.filter as RadiusFilter).radius, this)
+                }
+            }
+            field = value
+        }
 
     private val _referencesList = ArrayList<Reference>()
     val referencesList: ArrayList<Reference>

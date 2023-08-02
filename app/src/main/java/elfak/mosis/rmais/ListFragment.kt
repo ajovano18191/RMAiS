@@ -37,10 +37,10 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
-        fab.show()
-        val fabSearch: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab_search)
-        fabSearch.show()
+        val fab: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab)
+        fab?.show()
+        val fabSearch: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab_search)
+        fabSearch?.show()
 
 
         referencesViewModel.selectedReference = null
@@ -86,8 +86,6 @@ class ListFragment : Fragment() {
         val arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
         referencesViewModel.arrayAdapter = arrAdapter
         referencesList.adapter = arrAdapter
-
-
 
         referencesList.onItemClickListener =
             AdapterView.OnItemClickListener { p0, _, p2, _ ->
