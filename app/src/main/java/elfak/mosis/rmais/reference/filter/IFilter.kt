@@ -16,20 +16,33 @@ interface IFilter: ChildEventListener {
     override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
         val ref: Reference? = getTypedReference(snapshot)
         if(ref != null) {
-            referencesViewModel.referencesList.add(ref)
-            referencesViewModel.arrayAdapter?.notifyDataSetChanged()
+            addReference(ref)
         }
+    }
+
+    fun addReference(ref: Reference) {
+        referencesViewModel.referencesList.add(ref)
+        referencesViewModel.arrayAdapter?.notifyDataSetChanged()
     }
 
     override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
         val ref: Reference? = getTypedReference(snapshot)
         if(ref != null) {
-                val ind = refInd(ref)
-                if(ind >= 0) {
-                    replaceReference(ind, snapshot)
-                }
+            replaceReference(ref)
         }
-        referencesViewModel.arrayAdapter?.notifyDataSetChanged()
+    }
+
+    fun replaceReference(ref: Reference) {
+        val ind = refInd(ref)
+        if(ind >= 0) {
+            val isInfoWindowOpen =
+                referencesViewModel.referencesList[ind].referenceMarker.remove()
+            referencesViewModel.referencesList[ind] = ref
+            if(isInfoWindowOpen) {
+                ref.referenceMarker.showInfoWindow()
+            }
+            referencesViewModel.arrayAdapter?.notifyDataSetChanged()
+        }
     }
 
     fun refInd(ref: Reference): Int {
@@ -43,12 +56,9 @@ interface IFilter: ChildEventListener {
     }
 
     override fun onChildRemoved(snapshot: DataSnapshot) {
-        for(ref in referencesViewModel.referencesList) {
-            if(ref.key == snapshot.key) {
-                referencesViewModel.referencesList.remove(ref)
-                ref.referenceMarker.remove()
-                break
-            }
+        for(ref in referencesViewModel.referencesList.filter { ref -> ref.key == snapshot.key }) {
+            referencesViewModel.referencesList.remove(ref)
+            ref.referenceMarker.remove()
         }
         referencesViewModel.arrayAdapter?.notifyDataSetChanged()
     }
@@ -72,18 +82,8 @@ interface IFilter: ChildEventListener {
         }
 
         ref?.key = snapshot.key!!
-        ref?.referenceMarker?.create(referencesViewModel, isInfoWindowOpen)
+        ref?.referenceMarker?.create(referencesViewModel)
 
         return ref
-    }
-
-    fun replaceReference(ind: Int, snapshot: DataSnapshot) {
-        val isInfoWindowOpen = referencesViewModel.referencesList[ind].referenceMarker.remove()
-        val ref: Reference? = getTypedReference(snapshot, isInfoWindowOpen)
-
-        if(ref != null) {
-            referencesViewModel.referencesList[ind] = ref
-            referencesViewModel.arrayAdapter?.notifyDataSetChanged()
-        }
     }
 }

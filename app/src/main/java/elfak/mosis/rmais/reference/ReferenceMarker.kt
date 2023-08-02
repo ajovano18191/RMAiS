@@ -11,18 +11,18 @@ import org.osmdroid.views.overlay.Marker
 class ReferenceMarker(private val reference: Reference) {
     private var marker: Marker? = null
 
-    fun create(referencesViewModel: ReferencesViewModel, infoWindowIsOpened: Boolean = false) {
+    fun create(referencesViewModel: ReferencesViewModel) {
         if(MapFragment.mapView != null) {
             marker = Marker(MapFragment.mapView)
             MapFragment.mapView?.overlays?.add(marker)
-            update(referencesViewModel, infoWindowIsOpened)
+            update(referencesViewModel)
         }
         else {
             marker = null
         }
     }
 
-    private fun update(referencesViewModel: ReferencesViewModel, infoWindowIsOpened: Boolean = false) {
+    private fun update(referencesViewModel: ReferencesViewModel) {
         marker?.id = reference.key
         marker?.position = GeoPoint(reference.lat, reference.lon)
         marker?.title = toString()
@@ -32,10 +32,11 @@ class ReferenceMarker(private val reference: Reference) {
         if(reference.key == referencesViewModel.selectedReference?.key) {
             marker?.showInfoWindow()
         }
-        if(infoWindowIsOpened) {
-            marker?.showInfoWindow()
-        }
         MapFragment.mapView?.invalidate()
+    }
+
+    fun showInfoWindow() {
+        marker?.showInfoWindow()
     }
 
     fun remove(): Boolean {
@@ -47,7 +48,6 @@ class ReferenceMarker(private val reference: Reference) {
                     overlay.closeInfoWindow()
                     MapFragment.mapView?.overlays?.remove(overlay)
                     MapFragment.mapView?.invalidate()
-                    //break
                 }
             }
         }

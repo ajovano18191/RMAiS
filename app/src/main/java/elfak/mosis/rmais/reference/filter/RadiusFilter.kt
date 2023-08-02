@@ -20,7 +20,7 @@ class RadiusFilter(private val radius: Double, override val referencesViewModel:
         val ref: Reference? = getTypedReference(snapshot)
         if(ref != null) {
             if(calculateDistance(ref) < radius) {
-                super.onChildAdded(snapshot, previousChildName)
+                addReference(ref)
             }
             else {
                 ref.referenceMarker.remove()
@@ -32,7 +32,7 @@ class RadiusFilter(private val radius: Double, override val referencesViewModel:
         val ref: Reference? = getTypedReference(snapshot)
         if(ref != null) {
             if(calculateDistance(ref) < radius) {
-                super.onChildChanged(snapshot, previousChildName)
+                replaceReference(ref)
             }
             else {
                 super.onChildRemoved(snapshot)
