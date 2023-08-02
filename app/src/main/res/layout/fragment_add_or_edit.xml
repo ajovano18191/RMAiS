@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="5dp"
+    android:paddingBottom="?android:attr/actionBarSize"
     tools:context=".AddOrEditFragment"
     android:orientation="vertical">
 
@@ -44,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/addedit_radio_group"
-        android:layout_marginHorizontal="5dp"
         android:layout_marginVertical="5dp">
 
         <TableRow
@@ -163,23 +164,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/addedit_table_layout"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
         android:text="@string/addedit_set_location_button" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/addedit_set_location_button"
         android:layout_alignParentBottom="false"
         android:layout_marginTop="0dp"
-        android:orientation="horizontal"
-        style="?android:attr/buttonBarButtonStyle">
+        android:gravity="bottom"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/addedit_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:text="@string/addedit_save_button" />
 
@@ -187,7 +187,6 @@
             android:id="@+id/addedit_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
             android:text="@string/addedit_cancel_button" />
     </LinearLayout>

@@ -1,5 +1,6 @@
 package elfak.mosis.rmais
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -49,6 +50,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.fabSearch.hide()
+        binding.fabSearch.setOnClickListener {
+            var alertDialog = AlertDialog.Builder(it.context)
+
+                .show()
+        }
+
         Firebase.database.useEmulator("10.17.2.42", 9000)
         Firebase.auth.useEmulator("10.17.2.42", 9099)
         Firebase.storage.useEmulator("10.17.2.42", 9199)
@@ -67,10 +75,12 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.nav_host_fragment_content_main)
 
         binding.fab.hide()
+        binding.fabSearch.hide()
 
         when (item.itemId) {
             R.id.action_map -> {
-                binding.fab.show()
+                //binding.fab.show()
+                binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_MapFragment)
                 }
@@ -79,7 +89,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.action_list -> {
-                binding.fab.show()
+                //binding.fab.show()
+                binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_ListFragment)
                 }

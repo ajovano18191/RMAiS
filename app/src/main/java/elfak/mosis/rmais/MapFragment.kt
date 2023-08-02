@@ -43,6 +43,8 @@ class MapFragment : Fragment() {
 
         val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
         fab.show()
+        val fabSearch: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab_search)
+        fabSearch.show()
 
         initMap()
         checkPermissions()
