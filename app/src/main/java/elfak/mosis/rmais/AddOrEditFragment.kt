@@ -60,6 +60,8 @@ class AddOrEditFragment : Fragment() {
 
         val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
         fab.hide()
+        val fabSearch: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab_search)
+        fabSearch.hide()
 
         findViews()
         initLatAndLon()

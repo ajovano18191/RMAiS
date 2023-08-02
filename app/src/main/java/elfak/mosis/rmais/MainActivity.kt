@@ -15,6 +15,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
+import elfak.mosis.rmais.reference.FilterDialog
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -52,6 +53,14 @@ class MainActivity : AppCompatActivity() {
         Firebase.database.useEmulator("10.17.2.42", 9000)
         Firebase.auth.useEmulator("10.17.2.42", 9099)
         Firebase.storage.useEmulator("10.17.2.42", 9199)
+
+        val filterDialog = FilterDialog(referencesViewModel)
+        binding.fabSearch.hide()
+        binding.fabSearch.setOnClickListener {
+
+            filterDialog.show(it.context)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,10 +76,12 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.nav_host_fragment_content_main)
 
         binding.fab.hide()
+        binding.fabSearch.hide()
 
         when (item.itemId) {
             R.id.action_map -> {
-                binding.fab.show()
+                //binding.fab.show()
+                binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_MapFragment)
                 }
@@ -79,7 +90,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.action_list -> {
-                binding.fab.show()
+                //binding.fab.show()
+                binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_ListFragment)
                 }
