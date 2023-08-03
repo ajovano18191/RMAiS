@@ -156,7 +156,10 @@ class MainActivity : AppCompatActivity() {
         val currentUser = Firebase.auth.currentUser
         if (currentUser == null) {
             val i = Intent(this, LoginActivity::class.java)
+            i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+            i.addFlags(FLAG_ACTIVITY_NEW_TASK)
             startActivity(i)
+            finish()
         }
     }
 

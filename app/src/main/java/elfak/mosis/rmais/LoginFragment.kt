@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 
 class LoginFragment : Fragment() {
 
@@ -79,7 +80,7 @@ class LoginFragment : Fragment() {
     private fun initRegisterButton(view: View) {
         registerButton = view.findViewById(R.id.login_register_button)
         registerButton.setOnClickListener {
-
+            findNavController().navigate(R.id.action_LoginFragment_to_RegisterFragment)
         }
     }
 }
