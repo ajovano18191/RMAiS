@@ -11,19 +11,25 @@
         android:id="@+id/login_call_sign_text"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:autofillHints="username"
         android:ems="10"
-        android:inputType="text"
         android:hint="@string/login_call_sign_label"
-        android:autofillHints="username" />
+        android:text="YT5AKO"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textAllCaps="true" />
 
     <EditText
         android:id="@+id/login_password_text"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:autofillHints="password"
         android:ems="10"
         android:hint="@string/login_password_label"
+        android:text="aleksa"
         android:inputType="textPassword"
-        android:autofillHints="password" />
+        android:textAlignment="center"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/login_login_button"
