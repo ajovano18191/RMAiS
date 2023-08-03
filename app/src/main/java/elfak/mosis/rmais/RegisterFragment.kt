@@ -2,18 +2,23 @@ package elfak.mosis.rmais
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+
 
 class RegisterFragment : Fragment() {
 
+    private lateinit var profileImageView: ImageView
     private lateinit var callSignText: EditText
     private lateinit var passwordText: EditText
     private lateinit var passwordAgainText: EditText
@@ -21,7 +26,7 @@ class RegisterFragment : Fragment() {
     private lateinit var surnameText: EditText
     private lateinit var phoneNumberText: EditText
     private lateinit var registerButton: Button
-
+    private val CAMERA_REQUEST = 1888
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +39,22 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        profileImageView = view.findViewById(R.id.register_image_view)
+        profileImageView.setOnClickListener {
+            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(cameraIntent, CAMERA_REQUEST)
+        }
+
         findViews(view)
         initRegisterButton(view)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            val photo = data?.extras!!["data"] as Bitmap?
+            profileImageView.setImageBitmap(photo)
+        }
     }
 
     private fun findViews(view: View) {
