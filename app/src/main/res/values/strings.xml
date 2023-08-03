@@ -59,9 +59,15 @@
     <string name="filter_value">Value:</string>
     <string name="filter_clear_all_button">Clear all filters</string>
     <string name="filter_apply_button">Apply filters</string>
+
+
+    <string name="login_fragment_label">Login fragment</string>
+    <string name="login_call_sign_label">Enter your call sign here</string>
+    <string name="login_password_label">Enter your password here</string>
+    <string name="login_login_button_label">Log in</string>
+    <string name="login_register_button_label">Register</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
     </string>
-
-    <string name="login_fragment_label">Login fragment</string>
 </resources>
