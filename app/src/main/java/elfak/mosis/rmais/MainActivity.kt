@@ -1,6 +1,7 @@
 package elfak.mosis.rmais
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
 import android.view.Menu
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_map -> {
                 //binding.fab.show()
-                binding.fabSearch.show()
+                // binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_MapFragment)
                 }
@@ -119,14 +120,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.action_list -> {
-                //binding.fab.show()
-                binding.fabSearch.show()
-                if(navController.currentDestination?.id == R.id.FirstFragment) {
-                    navController.navigate(R.id.action_FirstFragment_to_ListFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.MapFragment) {
-                    navController.navigate(R.id.action_MapFragment_to_ListFragment)
-                }
+                // binding.fab.show()
+                // binding.fabSearch.show()
+                val i: Intent = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+//                if(navController.currentDestination?.id == R.id.FirstFragment) {
+//                    navController.navigate(R.id.action_FirstFragment_to_ListFragment)
+//                }
+//                else if(navController.currentDestination?.id == R.id.MapFragment) {
+//                    navController.navigate(R.id.action_MapFragment_to_ListFragment)
+//                }
             }
         }
         return super.onOptionsItemSelected(item)
