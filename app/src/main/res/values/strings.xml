@@ -69,14 +69,18 @@
     <string name="action_logout">Log out</string>
 
     <string name="register_fragment_label">Register fragment</string>
-    <string name="register_photo_label">Photo:</string>
     <string name="register_call_sign_label">Call sign:</string>
     <string name="register_password_label">Password:</string>
     <string name="register_password_again_label">Password again:</string>
-    <string name="register_name_label">Name:</string>
-    <string name="register_surname_label">Surname:</string>
-    <string name="register_phone_number_label">Phone number:</string>
     <string name="register_register_button">Register</string>
+
+    <string name="profile_fragment_label">Profile fragment</string>
+    <string name="profile_photo_label">Photo:</string>
+    <string name="profile_name_label">Name:</string>
+    <string name="profile_surname_label">Surname:</string>
+    <string name="profile_phone_number_label">Phone number:</string>
+    <string name="profile_cancel_button">Cancel</string>
+    <string name="profile_update_button">Update</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
