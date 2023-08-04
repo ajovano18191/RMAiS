@@ -75,6 +75,7 @@
     <string name="register_register_button">Register</string>
 
     <string name="profile_fragment_label">Profile fragment</string>
+    <string name="action_profile">Profile</string>
     <string name="profile_photo_label">Photo:</string>
     <string name="profile_name_label">Name:</string>
     <string name="profile_surname_label">Surname:</string>

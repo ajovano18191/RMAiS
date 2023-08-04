@@ -144,6 +144,17 @@ class MainActivity : AppCompatActivity() {
                 startActivity(i)
                 finish()
             }
+            R.id.action_profile -> {
+                if(navController.currentDestination?.id == R.id.FirstFragment) {
+                    navController.navigate(R.id.action_FirstFragment_to_ProfileFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.MapFragment) {
+                    navController.navigate(R.id.action_MapFragment_to_ProfileFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.ListFragment) {
+                    navController.navigate(R.id.action_ListFragment_to_ProfileFragment)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 class RegisterFragment : Fragment() {
 
@@ -62,7 +62,7 @@ class RegisterFragment : Fragment() {
                     startActivity(i)
                     requireActivity().finish()
                 } else {
-                    Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), task.exception.toString(), Snackbar.LENGTH_INDEFINITE).show()
                 }
             }
         }
