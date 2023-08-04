@@ -3,6 +3,7 @@ package elfak.mosis.rmais
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import java.io.ByteArrayOutputStream
 
 
 class RegisterFragment : Fragment() {
@@ -54,6 +56,20 @@ class RegisterFragment : Fragment() {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             val photo = data?.extras!!["data"] as Bitmap?
             profileImageView.setImageBitmap(photo)
+            // Get the data from an ImageView as bytes
+            profileImageView.isDrawingCacheEnabled = true
+            profileImageView.buildDrawingCache()
+            val bitmap = (profileImageView.drawable as BitmapDrawable).bitmap
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val byteArr = baos.toByteArray()
+
+            MainActivity.storage.putBytes(byteArr)
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+            }.addOnSuccessListener {
+                Toast.makeText(requireContext(), "Slika uploadovana uspesno", Toast.LENGTH_LONG).show()
+            }
         }
     }
 

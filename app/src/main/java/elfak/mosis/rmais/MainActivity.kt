@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
 import elfak.mosis.rmais.reference.FilterDialog
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         Firebase.auth.useEmulator("10.17.2.42", 9099)
         Firebase.storage.useEmulator("10.17.2.42", 9199)
         auth = Firebase.auth
+        storage = Firebase.storage.reference.child("profile_images")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -165,5 +168,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         lateinit var auth: FirebaseAuth
+        lateinit var storage: StorageReference
     }
 }
