@@ -3,8 +3,8 @@ package elfak.mosis.rmais
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -14,12 +14,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.storage.UploadTask
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
+import java.lang.Exception
 
 class ProfileFragment : Fragment() {
+
+    private lateinit var navController: NavController
 
     private lateinit var profileImageView: ImageView
     private lateinit var callSignText: EditText
@@ -42,7 +52,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = findNavController()
         findViews(view)
         initViews()
         initProfileImageView()
@@ -51,6 +61,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun findViews(view: View) {
+        callSignText = view.findViewById(R.id.register_call_sign_text)
         profileImageView = view.findViewById(R.id.register_image_view)
         nameText = view.findViewById(R.id.register_name_text)
         surnameText = view.findViewById(R.id.register_surname_text)
@@ -59,12 +70,20 @@ class ProfileFragment : Fragment() {
 
     private fun initViews() {
         val user = MainActivity.auth.currentUser!!
+
+        callSignText.setText(user.email?.substringBefore('@')?.uppercase())
+
         var arr = user.displayName?.split(' ') ?: listOf("", "")
         if(arr.count() < 2) {
             arr = listOf("", "")
         }
         nameText.setText(arr[0])
         surnameText.setText(arr[1])
+
+        MainActivity.storage.child("${user.uid}.jpg").getBytes(Long.MAX_VALUE).addOnSuccessListener {
+            val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
+            profileImageView.setImageBitmap(bmp)
+        }
     }
 
     private fun initProfileImageView() {
@@ -77,12 +96,35 @@ class ProfileFragment : Fragment() {
     private fun initUpdateButton(view: View) {
         val updateButton: Button = view.findViewById(R.id.profile_update_button)
         updateButton.setOnClickListener {
-            updateProfileImage()
-            updatePhoneNumber()
+            try {
+                CoroutineScope(Dispatchers.Main).launch {
+                    updateUser()
+                }
+            } catch (e: Exception) {
+                Snackbar.make(requireView(), e.toString(), Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun updateProfileImage() {
+    private suspend fun updateUser() {
+        try {
+            updateCallSign().await()
+            updateProfileImage().await()
+            updateDisplayName().await()
+            // updatePhoneNumber().await()
+            navController.popBackStack()
+        }
+        catch (e: Exception) {
+            Snackbar.make(requireView(), e.toString(), Snackbar.LENGTH_INDEFINITE).show()
+        }
+    }
+
+    private fun updateCallSign(): Task<Void> {
+        val callSign = callSignText.text.toString()
+        return MainActivity.auth.currentUser!!.updateEmail("$callSign@gmail.com")
+    }
+
+    private fun updateProfileImage(): UploadTask {
         profileImageView.isDrawingCacheEnabled = true
         profileImageView.buildDrawingCache()
         val bitmap = (profileImageView.drawable as BitmapDrawable).bitmap
@@ -90,45 +132,22 @@ class ProfileFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val byteArr = baos.toByteArray()
 
-        val imageReference = MainActivity.storage.child(MainActivity.auth.currentUser!!.uid)
-        imageReference.putBytes(byteArr)
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-            }.addOnSuccessListener {
-                imageReference.downloadUrl.addOnSuccessListener {
-                    updateDisplayNameAndPhotoURI(it)
-                }
-            }.addOnCanceledListener {
-                Toast.makeText(requireContext(), "Canceled profile image", Toast.LENGTH_LONG).show()
-            }
+        val imageReference = MainActivity.storage.child("${MainActivity.auth.currentUser!!.uid}.jpg")
+        return imageReference.putBytes(byteArr)
     }
 
-    private fun updateDisplayNameAndPhotoURI(photoURI: Uri) {
+    private fun updateDisplayName(): Task<Void> {
         val name = nameText.text.toString()
         val surname = surnameText.text.toString()
         val profileUpdates = userProfileChangeRequest {
             displayName = "$name $surname"
-            photoUri = photoURI
         }
 
-        MainActivity.auth.currentUser?.updateProfile(profileUpdates)
-            ?.addOnFailureListener {
-                Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-            }
-        ?.addOnCompleteListener  { task ->
-            if(task.isSuccessful) {
-                updatePhoneNumber()
-            }
-            else {
-                Toast.makeText(requireContext(), task.exception.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }?.addOnCanceledListener {
-                Toast.makeText(requireContext(), "Canceled display name", Toast.LENGTH_LONG).show()
-        }
+        return MainActivity.auth.currentUser!!.updateProfile(profileUpdates)
     }
 
     private fun updatePhoneNumber() {
-        findNavController().popBackStack()
+        Snackbar.make(requireView(), "User was successfully updated.", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun initCancelButton(view: View) {
