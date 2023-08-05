@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".LoginFragment">
+
+    <EditText
+        android:id="@+id/login_call_sign_text"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:autofillHints="username"
+        android:ems="10"
+        android:hint="@string/login_call_sign_label"
+        android:text="YT5AKO"
+        android:inputType="textCapCharacters"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/login_password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/login_password_label"
+        android:text="aleksa"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/login_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_login_button_label" />
+
+    <Button
+        android:id="@+id/login_register_button"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="@string/login_register_button_label" />
+
+
+</LinearLayout>

@@ -59,6 +59,30 @@
     <string name="filter_value">Value:</string>
     <string name="filter_clear_all_button">Clear all filters</string>
     <string name="filter_apply_button">Apply filters</string>
+
+
+    <string name="login_fragment_label">Login fragment</string>
+    <string name="login_call_sign_label">Enter your call sign here</string>
+    <string name="login_password_label">Enter your password here</string>
+    <string name="login_login_button_label">Log in</string>
+    <string name="login_register_button_label">Register</string>
+    <string name="action_logout">Log out</string>
+
+    <string name="register_fragment_label">Register fragment</string>
+    <string name="register_call_sign_label">Call sign:</string>
+    <string name="register_password_label">Password:</string>
+    <string name="register_password_again_label">Password again:</string>
+    <string name="register_register_button">Register</string>
+
+    <string name="profile_fragment_label">Profile fragment</string>
+    <string name="action_profile">Profile</string>
+    <string name="profile_photo_label">Photo:</string>
+    <string name="profile_name_label">Name:</string>
+    <string name="profile_surname_label">Surname:</string>
+    <string name="profile_phone_number_label">Phone number:</string>
+    <string name="profile_cancel_button">Cancel</string>
+    <string name="profile_update_button">Update</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
     </string>

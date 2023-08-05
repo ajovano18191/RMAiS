@@ -1,6 +1,9 @@
 package elfak.mosis.rmais
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
 import android.os.Looper
 import android.view.Menu
@@ -16,9 +19,12 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
 import elfak.mosis.rmais.reference.FilterDialog
@@ -38,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         Firebase.database.useEmulator("10.17.2.42", 9000)
         Firebase.auth.useEmulator("10.17.2.42", 9099)
         Firebase.storage.useEmulator("10.17.2.42", 9199)
+        auth = Firebase.auth
+        storage = Firebase.storage.reference.child("profile_images")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -110,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_map -> {
                 //binding.fab.show()
-                binding.fabSearch.show()
+                // binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_MapFragment)
                 }
@@ -119,13 +127,32 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.action_list -> {
-                //binding.fab.show()
-                binding.fabSearch.show()
+                // binding.fab.show()
+                // binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_ListFragment)
                 }
                 else if(navController.currentDestination?.id == R.id.MapFragment) {
                     navController.navigate(R.id.action_MapFragment_to_ListFragment)
+                }
+            }
+            R.id.action_logout -> {
+                auth.signOut()
+                val i = Intent(this, LoginActivity::class.java)
+                i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+                i.addFlags(FLAG_ACTIVITY_NEW_TASK)
+                startActivity(i)
+                finish()
+            }
+            R.id.action_profile -> {
+                if(navController.currentDestination?.id == R.id.FirstFragment) {
+                    navController.navigate(R.id.action_FirstFragment_to_ProfileFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.MapFragment) {
+                    navController.navigate(R.id.action_MapFragment_to_ProfileFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.ListFragment) {
+                    navController.navigate(R.id.action_ListFragment_to_ProfileFragment)
                 }
             }
         }
@@ -136,5 +163,22 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser == null) {
+            val i = Intent(this, LoginActivity::class.java)
+            i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+            i.addFlags(FLAG_ACTIVITY_NEW_TASK)
+            startActivity(i)
+            finish()
+        }
+    }
+
+    companion object {
+        lateinit var auth: FirebaseAuth
+        lateinit var storage: StorageReference
     }
 }
