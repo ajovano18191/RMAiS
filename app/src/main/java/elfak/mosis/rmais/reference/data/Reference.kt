@@ -5,6 +5,7 @@ import android.widget.TextView
 import com.google.firebase.database.Exclude
 import elfak.mosis.rmais.R
 import elfak.mosis.rmais.reference.ReferenceMarker
+import java.util.Date
 
 abstract class Reference (
     @get:Exclude
@@ -20,6 +21,11 @@ abstract class Reference (
 
     @get:Exclude
     internal val referenceMarker = ReferenceMarker(this)
+
+    var creationDateTime: Long = 0
+
+    val creationDate: Date
+        get() = Date(creationDateTime)
 
     fun initViews(mView: View) {
         val titleText = mView.findViewById<TextView>(R.id.infowindow_title_text)
