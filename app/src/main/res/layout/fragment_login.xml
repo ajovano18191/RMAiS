@@ -15,9 +15,8 @@
         android:ems="10"
         android:hint="@string/login_call_sign_label"
         android:text="YT5AKO"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textAllCaps="true" />
+        android:inputType="textCapCharacters"
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/login_password_text"
