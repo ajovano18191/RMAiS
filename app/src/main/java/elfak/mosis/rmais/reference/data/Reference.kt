@@ -5,7 +5,9 @@ import android.widget.TextView
 import com.google.firebase.database.Exclude
 import elfak.mosis.rmais.R
 import elfak.mosis.rmais.reference.ReferenceMarker
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.TimeZone
 
 abstract class Reference (
     @get:Exclude
@@ -24,10 +26,16 @@ abstract class Reference (
 
     var creationDateTime: Long = 0
 
+    @get:Exclude
     val creationDate: Date
         get() = Date(creationDateTime)
 
     fun initViews(mView: View) {
+        val creationDateText = mView.findViewById<TextView>(R.id.infowindow_creation_date_text)
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm z")
+        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+        creationDateText.text = dateFormat.format(creationDate)
+
         val titleText = mView.findViewById<TextView>(R.id.infowindow_title_text)
         titleText.text = "${reference} ${name}"
 
