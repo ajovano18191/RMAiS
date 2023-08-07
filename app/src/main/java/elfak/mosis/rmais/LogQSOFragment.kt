@@ -11,7 +11,14 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class LogQSOFragment : Fragment() {
     private val referencesViewModel: ReferencesViewModel by activityViewModels()
@@ -73,10 +80,30 @@ class LogQSOFragment : Fragment() {
     private fun initLogQSOButton(view: View) {
         val logQSOButton: Button = view.findViewById(R.id.log_qso_log_button)
         logQSOButton.setOnClickListener {
-            val qso = getQSO()
-            qso.log()
-            clearViews()
+            if(calculateDistance(referencesViewModel.selectedReference!!) < 1) {
+                val qso = getQSO()
+                qso.log()
+                clearViews()
+            }
+            else {
+                Snackbar.make(requireView(), "Morate biti u krugu od 1km od reference", Snackbar.LENGTH_INDEFINITE).show()
+            }
         }
+    }
+
+    private fun calculateDistance(ref: Reference): Double {
+        val testGP = referencesViewModel.userLocation
+        val dLat = Math.toRadians(ref.lat - testGP.latitude)
+        val dLon = Math.toRadians(ref.lon - testGP.longitude)
+        val originLat = Math.toRadians(testGP.latitude)
+        val destinationLat = Math.toRadians(ref.lat)
+
+        val a = sin(dLat / 2).pow(2.toDouble()) + sin(dLon / 2).pow(2.toDouble()) * cos(originLat) * cos(destinationLat)
+        val c = 2 * asin(sqrt(a))
+
+        val radius = 6372.8
+
+        return radius * c
     }
 
     private fun getQSO(): QSO {
