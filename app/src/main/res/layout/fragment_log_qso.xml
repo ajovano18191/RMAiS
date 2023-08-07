@@ -26,8 +26,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textCapCharacters"
-                android:textAlignment="center" />
+                android:inputType="textCapCharacters" />
         </TableRow>
 
         <TableRow
