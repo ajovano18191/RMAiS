@@ -25,16 +25,21 @@ abstract class Reference (
     internal val referenceMarker = ReferenceMarker(this)
 
     var creationDateTime: Long = 0
-
     @get:Exclude
     val creationDate: Date
         get() = Date(creationDateTime)
 
+    var lastActivationDateTime: Long = 0
+    @get:Exclude
+    val lastActivationDate: Date
+        get() = Date(lastActivationDateTime)
+
     fun initViews(mView: View) {
         val creationDateText = mView.findViewById<TextView>(R.id.infowindow_creation_date_text)
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm z")
-        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-        creationDateText.text = dateFormat.format(creationDate)
+        creationDateText.text = dateToString(creationDateTime)
+
+        val lastActivationDateText = mView.findViewById<TextView>(R.id.infowindow_last_activation_date_text)
+        lastActivationDateText.text = dateToString(lastActivationDateTime)
 
         val titleText = mView.findViewById<TextView>(R.id.infowindow_title_text)
         titleText.text = "${reference} ${name}"
@@ -47,6 +52,12 @@ abstract class Reference (
 
         val locText = mView.findViewById<TextView>(R.id.infowindow_loc_text)
         locText.text = loc
+    }
+
+    private fun dateToString(date: Long): String {
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm z")
+        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+        return dateFormat.format(date)
     }
 
     override fun hashCode(): Int {

@@ -39,6 +39,7 @@ class ReferenceDB(referencesViewModel: ReferencesViewModel) {
         val dbRefForWrite = dbRef.child(reference.key)
         CoroutineScope(Dispatchers.IO).launch {
             reference.creationDateTime = await(dbRefForWrite.child("creationDateTime").get()).getValue<Long>() ?: 0
+            reference.lastActivationDateTime = await(dbRefForWrite.child("lastActivationDateTime").get()).getValue<Long>() ?: 0
             dbRefForWrite.setValue(reference)
         }
     }
