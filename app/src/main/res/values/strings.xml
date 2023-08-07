@@ -48,6 +48,7 @@
     <string name="filter_spinner_type">Type</string>
     <string name="filter_spinner_reference">Reference</string>
     <string name="filter_spinner_name">Name</string>
+    <string name="filter_spinner_author">Author</string>
     <string name="filter_spinner_QTH_Loc">QTH Loc</string>
     <string name="filter_spinner_radius">Radius</string>
     <string name="filter_spinner_creation_date">Creation date</string>
@@ -56,6 +57,7 @@
         <item>@string/filter_spinner_type</item>
         <item>@string/filter_spinner_reference</item>
         <item>@string/filter_spinner_name</item>
+        <item>@string/filter_spinner_author</item>
         <item>@string/filter_spinner_QTH_Loc</item>
         <item>@string/filter_spinner_radius</item>
         <item>@string/filter_spinner_creation_date</item>
@@ -130,5 +132,6 @@
         Lorem ipsum dolor sit amet.
     </string>
     <string name="infowindow_last_activation_date_label">Last activation:</string>
+    <string name="infowindow_author_label">Author callsign:</string>
 
 </resources>
