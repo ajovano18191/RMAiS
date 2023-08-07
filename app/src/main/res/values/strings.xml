@@ -89,7 +89,45 @@
     <string name="profile_cancel_button">Cancel</string>
     <string name="profile_update_button">Update</string>
 
+    <string name="log_qso_fragment">Log QSO</string>
+    <string name="log_qso_call_sign_label">Call sign:</string>
+    <string name="log_qso_rst_sent_label">RST Sent:</string>
+    <string name="log_qso_rst_recv_label">RST Recv:</string>
+    <string name="log_qso_mode_label">Mode:</string>
+    <string name="log_qso_band_label">Band:</string>
+    <string name="log_qso_info_label">Info:</string>
+    <string name="log_qso_log_button">Log</string>
+
+    <string name="log_qso_cw_mode">CW</string>
+    <string name="log_qso_ssb_mode">SSB</string>
+    <string name="log_qso_fm_mode">FM</string>
+    <string name="log_qso_digi_mode">DIGI</string>
+    <string-array name="log_qso_modes">
+        <item>@string/log_qso_cw_mode</item>
+        <item>@string/log_qso_ssb_mode</item>
+        <item>@string/log_qso_fm_mode</item>
+        <item>@string/log_qso_digi_mode</item>
+    </string-array>
+
+    <string-array name="log_qso_bands">
+        <item>1.8 MHz</item>
+        <item>3.5 MHz</item>
+        <item>5 MHz</item>
+        <item>7 MHz</item>
+        <item>10 MHz</item>
+        <item>14 MHz</item>
+        <item>18 MHz</item>
+        <item>21 MHz</item>
+        <item>24 MHz</item>
+        <item>28 MHz</item>
+        <item>50 MHz</item>
+        <item>70 MHz</item>
+        <item>144 MHz</item>
+        <item>432 MHz</item>
+    </string-array>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
     </string>
+
 </resources>
