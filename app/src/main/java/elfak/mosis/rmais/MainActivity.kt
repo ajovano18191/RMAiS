@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
@@ -167,7 +166,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val currentUser = Firebase.auth.currentUser
+        val currentUser = auth.currentUser
         if (currentUser == null) {
             val i = Intent(this, LoginActivity::class.java)
             i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
@@ -177,8 +176,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        if(signOut) {
+            auth.signOut()
+        }
+        signOut = true
+        super.onStop()
+    }
+
     companion object {
         lateinit var auth: FirebaseAuth
         lateinit var storage: StorageReference
+        var signOut = true
     }
 }

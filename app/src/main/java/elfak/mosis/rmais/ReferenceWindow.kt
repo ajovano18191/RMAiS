@@ -16,9 +16,18 @@ class ReferenceWindow(private val mapView: MapView, private val reference: Refer
 
         reference.initViews(mView)
 
+        initActivateButton()
         initEditButton()
         initDeleteButton()
         initCloseButton()
+    }
+
+    private fun initActivateButton() {
+        val activateButton: ImageButton = mView.findViewById(R.id.activate_button)
+        activateButton.setOnClickListener {
+            referencesViewModel.selectedReference = reference
+            mapView.findNavController().navigate(R.id.action_MapFragment_to_LogQSOFragment)
+        }
     }
 
     private fun initEditButton() {

@@ -99,6 +99,7 @@ class ListFragment : Fragment() {
                 reference.initViews(mView)
 
                 initMapButton(reference)
+                initActivateButton(reference)
                 initEditButton(reference)
                 initDeleteButton(reference)
                 initCloseButton()
@@ -118,6 +119,15 @@ class ListFragment : Fragment() {
             referencesViewModel.selectedReference = reference
             alertDialog.cancel()
             findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
+        }
+    }
+
+    private fun initActivateButton(reference: Reference) {
+        val activateButton: ImageButton = mView.findViewById(R.id.activate_button)
+        activateButton.setOnClickListener {
+            alertDialog.cancel()
+            referencesViewModel.selectedReference = reference
+            findNavController().navigate(R.id.action_ListFragment_to_LogQSOFragment)
         }
     }
 

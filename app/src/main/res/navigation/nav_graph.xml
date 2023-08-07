@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_MapFragment_to_ProfileFragment"
             app:destination="@id/ProfileFragment" />
+        <action
+            android:id="@+id/action_MapFragment_to_LogQSOFragment"
+            app:destination="@id/LogQSOFragment" />
     </fragment>
 
     <fragment
@@ -72,6 +75,9 @@
         <action
             android:id="@+id/action_ListFragment_to_ProfileFragment"
             app:destination="@id/ProfileFragment" />
+        <action
+            android:id="@+id/action_ListFragment_to_LogQSOFragment"
+            app:destination="@id/LogQSOFragment" />
     </fragment>
 
     <fragment
@@ -102,5 +108,24 @@
         <action
             android:id="@+id/action_ProfileFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LogQSOFragment"
+        android:name="elfak.mosis.rmais.LogQSOFragment"
+        android:label="@string/log_qso_fragment"
+        tools:layout="@layout/fragment_log_qso" >
+        <action
+            android:id="@+id/action_LogQSOFragment_to_MapFragment"
+            app:destination="@id/MapFragment" />
+        <action
+            android:id="@+id/action_LogQSOFragment_to_ListFragment"
+            app:destination="@id/ListFragment" />
+        <action
+            android:id="@+id/action_LogQSOFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_LogQSOFragment_to_ProfileFragment"
+            app:destination="@id/ProfileFragment" />
     </fragment>
 </navigation>
