@@ -157,6 +157,9 @@ class FilterDialog(private val referencesViewModel: ReferencesViewModel) {
             alertDialog.context.resources.getString(R.string.filter_spinner_name) -> {
                 referencesViewModel.referenceDB.filter = StringFilter("name", selectedValue, referencesViewModel)
             }
+            alertDialog.context.resources.getString(R.string.filter_spinner_author) -> {
+                referencesViewModel.referenceDB.filter = StringFilter("authorCallSign", selectedValue.uppercase(), referencesViewModel)
+            }
             alertDialog.context.resources.getString(R.string.filter_spinner_QTH_Loc) -> {
                 referencesViewModel.referenceDB.filter = StringFilter("loc", selectedValue, referencesViewModel)
             }

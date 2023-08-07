@@ -21,6 +21,9 @@ abstract class Reference (
     abstract var pinIcon: Int
     abstract var type: String
 
+    var authorKey = ""
+    var authorCallSign = ""
+
     @get:Exclude
     internal val referenceMarker = ReferenceMarker(this)
 
@@ -35,6 +38,9 @@ abstract class Reference (
         get() = Date(lastActivationDateTime)
 
     fun initViews(mView: View) {
+        val authorText = mView.findViewById<TextView>(R.id.infowindow_author_text)
+        authorText.text = authorCallSign
+
         val creationDateText = mView.findViewById<TextView>(R.id.infowindow_creation_date_text)
         creationDateText.text = dateToString(creationDateTime)
 

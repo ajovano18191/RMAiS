@@ -5,6 +5,7 @@ import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import elfak.mosis.rmais.MainActivity
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.filter.IFilter
 import elfak.mosis.rmais.reference.filter.NoFilter
@@ -40,11 +41,15 @@ class ReferenceDB(referencesViewModel: ReferencesViewModel) {
         CoroutineScope(Dispatchers.IO).launch {
             reference.creationDateTime = await(dbRefForWrite.child("creationDateTime").get()).getValue<Long>() ?: 0
             reference.lastActivationDateTime = await(dbRefForWrite.child("lastActivationDateTime").get()).getValue<Long>() ?: 0
+            reference.authorKey = await(dbRefForWrite.child("authorKey").get()).getValue<String>() ?: ""
+            reference.authorCallSign = await(dbRefForWrite.child("authorCallSign").get()).getValue<String>() ?: ""
             dbRefForWrite.setValue(reference)
         }
     }
 
     private fun add(reference: Reference) {
+        reference.authorKey = MainActivity.auth.currentUser!!.uid
+        reference.authorCallSign = MainActivity.auth.currentUser!!.email!!.substringBefore('@').uppercase()
         val dbRefForWrite = dbRef.push()
         dbRefForWrite.setValue(reference)
             .addOnSuccessListener {
