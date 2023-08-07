@@ -35,6 +35,7 @@ class AddOrEditFragment : Fragment() {
     private lateinit var lonEditText: EditText
 
     private lateinit var setLocationButton: Button
+    private lateinit var setMyLocationButton: Button
 
     private lateinit var cancelButton: Button
     private lateinit var saveButton: Button
@@ -69,6 +70,7 @@ class AddOrEditFragment : Fragment() {
 
         initSaveButton()
         initSetLocationButton()
+        initSetMyLocationButton()
         initCancelButton()
     }
 
@@ -93,6 +95,7 @@ class AddOrEditFragment : Fragment() {
         lonEditText = view.findViewById(R.id.addedit_log_text)
 
         setLocationButton = view.findViewById(R.id.addedit_set_location_button)
+        setMyLocationButton = view.findViewById(R.id.addedit_set_my_location_button)
 
         cancelButton = view.findViewById(R.id.addedit_cancel_button)
         saveButton = view.findViewById(R.id.addedit_save_button)
@@ -135,12 +138,29 @@ class AddOrEditFragment : Fragment() {
                 locationViewModel.setLocation(referencesViewModel.selectedReference!!.lon, referencesViewModel.selectedReference!!.lat)
             }
         }
+        else {
+            if(locationViewModel.lat.value == 0.0 && locationViewModel.lon.value == 0.0) {
+                locationViewModel.setLocation(
+                    referencesViewModel.userLocation.longitude,
+                    referencesViewModel.userLocation.latitude
+                )
+            }
+        }
     }
 
     private fun initSetLocationButton() {
         setLocationButton.setOnClickListener {
             locationViewModel.setLocation = true
             findNavController().navigate(R.id.action_AddOrEditFragment_to_MapFragment)
+        }
+    }
+
+    private fun initSetMyLocationButton() {
+        setMyLocationButton.setOnClickListener {
+            locationViewModel.setLocation(
+                referencesViewModel.userLocation.longitude,
+                referencesViewModel.userLocation.latitude
+            )
         }
     }
 

@@ -37,6 +37,7 @@
     <string name="addedit_lat_label">Latitude:</string>
     <string name="addedit_log_label">Longitude:</string>
     <string name="addedit_set_location_button">Set location</string>
+    <string name="addedit_set_my_location_button">Set my location</string>
     <string name="addedit_add_button">Add</string>
     <string name="addedit_save_button">Save</string>
     <string name="addedit_cancel_button">Cancel</string>
