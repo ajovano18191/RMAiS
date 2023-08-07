@@ -49,12 +49,16 @@
     <string name="filter_spinner_name">Name</string>
     <string name="filter_spinner_QTH_Loc">QTH Loc</string>
     <string name="filter_spinner_radius">Radius</string>
+    <string name="filter_spinner_creation_date">Creation date</string>
+    <string name="filter_spinner_last_activation_date">Last activation</string>
     <string-array name="filter_fields">
         <item>@string/filter_spinner_type</item>
         <item>@string/filter_spinner_reference</item>
         <item>@string/filter_spinner_name</item>
         <item>@string/filter_spinner_QTH_Loc</item>
         <item>@string/filter_spinner_radius</item>
+        <item>@string/filter_spinner_creation_date</item>
+        <item>@string/filter_spinner_last_activation_date</item>
     </string-array>
 
     <string name="filter_value">Value:</string>

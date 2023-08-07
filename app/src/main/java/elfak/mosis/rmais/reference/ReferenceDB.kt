@@ -22,6 +22,7 @@ class ReferenceDB(referencesViewModel: ReferencesViewModel) {
                 ref.referenceMarker.remove()
             }
             field.referencesViewModel.referencesList.clear()
+            field.referencesViewModel.arrayAdapter?.notifyDataSetChanged()
             field = value
         }
 
