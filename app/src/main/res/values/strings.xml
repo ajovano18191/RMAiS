@@ -129,5 +129,6 @@
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet.
     </string>
+    <string name="infowindow_last_activation_date_label">Last activation:</string>
 
 </resources>

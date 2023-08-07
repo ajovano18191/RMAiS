@@ -37,30 +37,39 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:text="@string/infowindow_creation_date_label" />
-
             <TextView
                 android:id="@+id/infowindow_creation_date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+        </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/infowindow_last_activation_date_label" />
+            <TextView
+                android:id="@+id/infowindow_last_activation_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:text="@string/infowindow_lat_label" />
-
             <TextView
                 android:id="@+id/infowindow_latitude_text"
                 android:layout_width="match_parent"
@@ -70,13 +79,11 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:text="@string/infowindow_log_label" />
-
             <TextView
                 android:id="@+id/infowindow_longitude_text"
                 android:layout_width="match_parent"
@@ -86,13 +93,11 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:text="@string/infowindow_loc_label" />
-
             <TextView
                 android:id="@+id/infowindow_loc_text"
                 android:layout_width="match_parent"
@@ -106,7 +111,6 @@
         android:layout_height="match_parent"
         android:gravity="bottom|center_horizontal"
         android:orientation="horizontal">
-
         <ImageButton
             android:id="@+id/map_button"
             android:layout_width="wrap_content"
@@ -115,7 +119,6 @@
             android:contentDescription="@string/infowindow_map_button"
             android:src="@drawable/outline_map_24"
             android:visibility="gone" />
-
         <ImageButton
             android:id="@+id/activate_button"
             android:layout_width="wrap_content"
@@ -123,7 +126,6 @@
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@string/infowindow_activate_button"
             android:src="@drawable/outline_settings_input_antenna_24" />
-
         <ImageButton
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
@@ -131,7 +133,6 @@
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@string/infowindow_edit_button"
             android:src="@drawable/outline_edit_24" />
-
         <ImageButton
             android:id="@+id/delete_button"
             android:layout_width="wrap_content"
@@ -139,7 +140,5 @@
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@string/infowindow_delete_button"
             android:src="@drawable/outline_delete_24" />
-
     </LinearLayout>
-
 </LinearLayout>
