@@ -48,7 +48,7 @@ abstract class Reference (
         lastActivationDateText.text = dateToString(lastActivationDateTime)
 
         val titleText = mView.findViewById<TextView>(R.id.infowindow_title_text)
-        titleText.text = "${reference} ${name}"
+        titleText.text = "$reference $name"
 
         val latText = mView.findViewById<TextView>(R.id.infowindow_latitude_text)
         latText.text = lat.toString()

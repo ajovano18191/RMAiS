@@ -7,13 +7,13 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
@@ -25,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
 
 class ProfileFragment : Fragment() {
 
@@ -33,13 +32,10 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileImageView: ImageView
     private lateinit var callSignText: EditText
-    private lateinit var passwordText: EditText
-    private lateinit var passwordAgainText: EditText
     private lateinit var nameText: EditText
     private lateinit var surnameText: EditText
     private lateinit var phoneNumberText: EditText
 
-    private lateinit var updateButton: Button
     private val CAMERA_REQUEST = 1888
 
     override fun onCreateView(
@@ -69,7 +65,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initViews() {
-        val user = MainActivity.auth.currentUser!!
+        val user = FB.auth.currentUser!!
 
         callSignText.setText(user.email?.substringBefore('@')?.uppercase())
 
@@ -80,7 +76,7 @@ class ProfileFragment : Fragment() {
         nameText.setText(arr[0])
         surnameText.setText(arr[1])
 
-        MainActivity.storage.child("${user.uid}.jpg").getBytes(Long.MAX_VALUE).addOnSuccessListener {
+        FB.profileImages.child("${user.uid}.jpg").getBytes(Long.MAX_VALUE).addOnSuccessListener {
             val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
             profileImageView.setImageBitmap(bmp)
         }
@@ -122,7 +118,7 @@ class ProfileFragment : Fragment() {
 
     private fun updateCallSign(): Task<Void> {
         val callSign = callSignText.text.toString()
-        return MainActivity.auth.currentUser!!.updateEmail("$callSign@gmail.com")
+        return FB.auth.currentUser!!.updateEmail("$callSign@gmail.com")
     }
 
     private fun updateProfileImage(): UploadTask {
@@ -133,7 +129,7 @@ class ProfileFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val byteArr = baos.toByteArray()
 
-        val imageReference = MainActivity.storage.child("${MainActivity.auth.currentUser!!.uid}.jpg")
+        val imageReference = FB.profileImages.child("${FB.auth.currentUser!!.uid}.jpg")
         return imageReference.putBytes(byteArr)
     }
 
@@ -144,7 +140,7 @@ class ProfileFragment : Fragment() {
             displayName = "$name $surname"
         }
 
-        return MainActivity.auth.currentUser!!.updateProfile(profileUpdates)
+        return FB.auth.currentUser!!.updateProfile(profileUpdates)
     }
 
     private fun updatePhoneNumber() {

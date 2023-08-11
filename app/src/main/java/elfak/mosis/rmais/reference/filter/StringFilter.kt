@@ -1,6 +1,6 @@
 package elfak.mosis.rmais.reference.filter
 
-import elfak.mosis.rmais.reference.ReferenceDB
+import elfak.mosis.rmais.FB
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
 class StringFilter(
@@ -9,7 +9,7 @@ class StringFilter(
     override val referencesViewModel: ReferencesViewModel) : IFilter
 {
     init {
-        val dbRef = ReferenceDB.dbRef.orderByChild(field).startAt(value).endAt(value + "z")
+        val dbRef = FB.referencesDB.orderByChild(field).startAt(value).endAt(value + "z")
         dbRef.addChildEventListener(this)
     }
 }

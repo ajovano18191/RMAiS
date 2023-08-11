@@ -19,13 +19,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.Query
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import elfak.mosis.rmais.databinding.ActivityMainBinding
 import elfak.mosis.rmais.reference.FilterDialog
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
@@ -40,13 +33,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
-        Firebase.database.useEmulator("10.17.2.42", 9000)
-        Firebase.auth.useEmulator("10.17.2.42", 9099)
-        Firebase.storage.useEmulator("10.17.2.42", 9199)
-        auth = Firebase.auth
-        storage = Firebase.storage.reference.child("profile_images")
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -118,29 +104,33 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.action_map -> {
-                if(navController.currentDestination?.id == R.id.FirstFragment) {
-                    navController.navigate(R.id.action_FirstFragment_to_MapFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.ListFragment) {
-                    navController.navigate(R.id.action_ListFragment_to_MapFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.ListUsersFragment) {
-                    navController.navigate(R.id.action_ListUsersFragment_to_MapFragment)
+                when (navController.currentDestination?.id) {
+                    R.id.FirstFragment -> {
+                        navController.navigate(R.id.action_FirstFragment_to_MapFragment)
+                    }
+                    R.id.ListFragment -> {
+                        navController.navigate(R.id.action_ListFragment_to_MapFragment)
+                    }
+                    R.id.ListUsersFragment -> {
+                        navController.navigate(R.id.action_ListUsersFragment_to_MapFragment)
+                    }
                 }
             }
             R.id.action_list -> {
-                if(navController.currentDestination?.id == R.id.FirstFragment) {
-                    navController.navigate(R.id.action_FirstFragment_to_ListFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.MapFragment) {
-                    navController.navigate(R.id.action_MapFragment_to_ListFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.ListUsersFragment) {
-                    navController.navigate(R.id.action_ListUsersFragment_to_ListFragment)
+                when (navController.currentDestination?.id) {
+                    R.id.FirstFragment -> {
+                        navController.navigate(R.id.action_FirstFragment_to_ListFragment)
+                    }
+                    R.id.MapFragment -> {
+                        navController.navigate(R.id.action_MapFragment_to_ListFragment)
+                    }
+                    R.id.ListUsersFragment -> {
+                        navController.navigate(R.id.action_ListUsersFragment_to_ListFragment)
+                    }
                 }
             }
             R.id.action_logout -> {
-                auth.signOut()
+                FB.auth.signOut()
                 val i = Intent(this, LoginActivity::class.java)
                 i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
                 i.addFlags(FLAG_ACTIVITY_NEW_TASK)
@@ -148,31 +138,35 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
             R.id.action_profile -> {
-                if(navController.currentDestination?.id == R.id.FirstFragment) {
-                    navController.navigate(R.id.action_FirstFragment_to_ProfileFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.MapFragment) {
-                    navController.navigate(R.id.action_MapFragment_to_ProfileFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.ListFragment) {
-                    navController.navigate(R.id.action_ListFragment_to_ProfileFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.ListUsersFragment) {
-                    navController.navigate(R.id.action_ListUsersFragment_to_ProfileFragment)
+                when (navController.currentDestination?.id) {
+                    R.id.FirstFragment -> {
+                        navController.navigate(R.id.action_FirstFragment_to_ProfileFragment)
+                    }
+                    R.id.MapFragment -> {
+                        navController.navigate(R.id.action_MapFragment_to_ProfileFragment)
+                    }
+                    R.id.ListFragment -> {
+                        navController.navigate(R.id.action_ListFragment_to_ProfileFragment)
+                    }
+                    R.id.ListUsersFragment -> {
+                        navController.navigate(R.id.action_ListUsersFragment_to_ProfileFragment)
+                    }
                 }
             }
             R.id.action_list_users -> {
-                if(navController.currentDestination?.id == R.id.FirstFragment) {
-                    navController.navigate(R.id.action_FirstFragment_to_ListUsersFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.MapFragment) {
-                    navController.navigate(R.id.action_MapFragment_to_ListUsersFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.ListFragment) {
-                    navController.navigate(R.id.action_ListFragment_to_ListUsersFragment)
-                }
-                else if(navController.currentDestination?.id == R.id.LogQSOFragment) {
-                    navController.navigate(R.id.action_LogQSOFragment_to_ListUsersFragment)
+                when (navController.currentDestination?.id) {
+                    R.id.FirstFragment -> {
+                        navController.navigate(R.id.action_FirstFragment_to_ListUsersFragment)
+                    }
+                    R.id.MapFragment -> {
+                        navController.navigate(R.id.action_MapFragment_to_ListUsersFragment)
+                    }
+                    R.id.ListFragment -> {
+                        navController.navigate(R.id.action_ListFragment_to_ListUsersFragment)
+                    }
+                    R.id.LogQSOFragment -> {
+                        navController.navigate(R.id.action_LogQSOFragment_to_ListUsersFragment)
+                    }
                 }
             }
         }
@@ -187,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
+        val currentUser = FB.auth.currentUser
         if (currentUser == null) {
             val i = Intent(this, LoginActivity::class.java)
             i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
@@ -199,15 +193,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         if(signOut) {
-            auth.signOut()
+            FB.auth.signOut()
         }
         signOut = true
         super.onStop()
     }
 
     companion object {
-        lateinit var auth: FirebaseAuth
-        lateinit var storage: StorageReference
         var signOut = true
     }
 }
