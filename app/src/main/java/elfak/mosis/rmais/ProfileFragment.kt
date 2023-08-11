@@ -48,6 +48,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        MainActivity.showHideFabButtons(false)
+
         navController = findNavController()
         findViews(view)
         initViews()
@@ -85,7 +88,7 @@ class ProfileFragment : Fragment() {
     private fun initProfileImageView() {
         profileImageView.setOnClickListener {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            MainActivity.signOut = false
+            FB.signOut = false
             startActivityForResult(cameraIntent, CAMERA_REQUEST)
         }
     }

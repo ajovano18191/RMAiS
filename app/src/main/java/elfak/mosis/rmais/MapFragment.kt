@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.rmais.reference.model.LocationViewModel
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 import org.osmdroid.config.Configuration
@@ -41,10 +40,7 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab)
-        fab?.show()
-        val fabSearch: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab_search)
-        fabSearch?.show()
+        MainActivity.showHideFabButtons(true)
 
         initMap()
         checkPermissions()

@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
@@ -40,10 +39,7 @@ class LogQSOFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab)
-        fab.hide()
-        val fabSearch: FloatingActionButton = (requireView().parent.parent.parent as View).findViewById(R.id.fab_search)
-        fabSearch.hide()
+        MainActivity.showHideFabButtons(false)
 
         findViews(view)
         initLogQSOButton(view)

@@ -14,7 +14,6 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
@@ -37,11 +36,7 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fab: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab)
-        fab?.show()
-        val fabSearch: FloatingActionButton? = (requireView()?.parent?.parent?.parent as? View)?.findViewById(R.id.fab_search)
-        fabSearch?.show()
-
+        MainActivity.showHideFabButtons(true)
 
         referencesViewModel.selectedReference = null
 

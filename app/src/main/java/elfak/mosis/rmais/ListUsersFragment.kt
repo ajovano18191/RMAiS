@@ -23,6 +23,8 @@ class ListUsersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        MainActivity.showHideFabButtons(false)
+
         val usersListView: ListView = view.findViewById(R.id.list_users_list)
         FB.usersDB.orderByChild("score").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

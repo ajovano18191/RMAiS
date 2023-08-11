@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.rmais.databinding.ActivityMainBinding
 import elfak.mosis.rmais.reference.FilterDialog
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         val referencesViewModel: ReferencesViewModel by viewModels()
 
-        binding.fab.hide()
+        fabAdd = binding.fab
         binding.fab.setOnClickListener {
             referencesViewModel.selectedReference = null
             if(navController.currentDestination?.id == R.id.ListFragment) {
@@ -57,11 +57,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val filterDialog = FilterDialog(referencesViewModel)
-        binding.fabSearch.hide()
+        fabSearch = binding.fabSearch
         binding.fabSearch.setOnClickListener {
 
             filterDialog.show(it.context)
         }
+        showHideFabButtons(false)
 
         subToUserLocation(referencesViewModel)
     }
@@ -88,7 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -99,8 +99,7 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         val navController = this.findNavController(R.id.nav_host_fragment_content_main)
 
-        binding.fab.hide()
-        binding.fabSearch.hide()
+        showHideFabButtons(false)
 
         when (item.itemId) {
             R.id.action_map -> {
@@ -131,11 +130,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_logout -> {
                 FB.auth.signOut()
-                val i = Intent(this, LoginActivity::class.java)
-                i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
-                i.addFlags(FLAG_ACTIVITY_NEW_TASK)
-                startActivity(i)
-                finish()
+                startLoginActivity()
             }
             R.id.action_profile -> {
                 when (navController.currentDestination?.id) {
@@ -179,27 +174,42 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
+    private fun startLoginActivity() {
+        val i = Intent(this, LoginActivity::class.java)
+        i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+        i.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        startActivity(i)
+        finish()
+    }
+
     override fun onStart() {
         super.onStart()
         val currentUser = FB.currentUser
         if (currentUser == null) {
-            val i = Intent(this, LoginActivity::class.java)
-            i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
-            i.addFlags(FLAG_ACTIVITY_NEW_TASK)
-            startActivity(i)
-            finish()
+            startLoginActivity()
         }
     }
 
     override fun onStop() {
-        if(signOut) {
+        if(FB.signOut) {
             FB.auth.signOut()
         }
-        signOut = true
+        FB.signOut = true
         super.onStop()
     }
 
     companion object {
-        var signOut = true
+        lateinit var fabAdd: FloatingActionButton
+        lateinit var fabSearch: FloatingActionButton
+        fun showHideFabButtons(show: Boolean) {
+            if(show) {
+                fabAdd.show()
+                fabSearch.show()
+            }
+            else {
+                fabAdd.hide()
+                fabSearch.hide()
+            }
+        }
     }
 }
