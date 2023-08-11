@@ -133,5 +133,8 @@
     </string>
     <string name="infowindow_last_activation_date_label">Last activation:</string>
     <string name="infowindow_author_label">Author callsign:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_list_users">List users</string>
 
 </resources>

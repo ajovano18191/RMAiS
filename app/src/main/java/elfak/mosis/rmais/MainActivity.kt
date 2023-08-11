@@ -21,6 +21,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.Query
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         Firebase.storage.useEmulator("10.17.2.42", 9199)
         auth = Firebase.auth
         storage = Firebase.storage.reference.child("profile_images")
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -116,23 +118,25 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.action_map -> {
-                //binding.fab.show()
-                // binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_MapFragment)
                 }
                 else if(navController.currentDestination?.id == R.id.ListFragment) {
                     navController.navigate(R.id.action_ListFragment_to_MapFragment)
                 }
+                else if(navController.currentDestination?.id == R.id.ListUsersFragment) {
+                    navController.navigate(R.id.action_ListUsersFragment_to_MapFragment)
+                }
             }
             R.id.action_list -> {
-                // binding.fab.show()
-                // binding.fabSearch.show()
                 if(navController.currentDestination?.id == R.id.FirstFragment) {
                     navController.navigate(R.id.action_FirstFragment_to_ListFragment)
                 }
                 else if(navController.currentDestination?.id == R.id.MapFragment) {
                     navController.navigate(R.id.action_MapFragment_to_ListFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.ListUsersFragment) {
+                    navController.navigate(R.id.action_ListUsersFragment_to_ListFragment)
                 }
             }
             R.id.action_logout -> {
@@ -152,6 +156,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 else if(navController.currentDestination?.id == R.id.ListFragment) {
                     navController.navigate(R.id.action_ListFragment_to_ProfileFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.ListUsersFragment) {
+                    navController.navigate(R.id.action_ListUsersFragment_to_ProfileFragment)
+                }
+            }
+            R.id.action_list_users -> {
+                if(navController.currentDestination?.id == R.id.FirstFragment) {
+                    navController.navigate(R.id.action_FirstFragment_to_ListUsersFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.MapFragment) {
+                    navController.navigate(R.id.action_MapFragment_to_ListUsersFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.ListFragment) {
+                    navController.navigate(R.id.action_ListFragment_to_ListUsersFragment)
+                }
+                else if(navController.currentDestination?.id == R.id.LogQSOFragment) {
+                    navController.navigate(R.id.action_LogQSOFragment_to_ListUsersFragment)
                 }
             }
         }
