@@ -2,6 +2,7 @@ package elfak.mosis.rmais
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,11 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.SearchView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
@@ -121,8 +124,14 @@ class ListFragment : Fragment() {
         val activateButton: ImageButton = mView.findViewById(R.id.activate_button)
         activateButton.setOnClickListener {
             alertDialog.cancel()
-            referencesViewModel.selectedReference = reference
-            findNavController().navigate(R.id.action_ListFragment_to_LogQSOFragment)
+            if(ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Snackbar.make(requireView(), "Morate odobriti pristup lokaciji", Snackbar.LENGTH_INDEFINITE).show()
+            }
+            else {
+                referencesViewModel.selectedReference = reference
+                findNavController().navigate(R.id.action_ListFragment_to_LogQSOFragment)
+            }
         }
     }
 

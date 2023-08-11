@@ -1,15 +1,17 @@
 package elfak.mosis.rmais
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,6 +29,7 @@ import org.osmdroid.util.GeoPoint
 
 class MainActivity : AppCompatActivity() {
 
+    val referencesViewModel: ReferencesViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -43,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        val referencesViewModel: ReferencesViewModel by viewModels()
 
         fabAdd = binding.fab
         binding.fab.setOnClickListener {
@@ -64,11 +66,10 @@ class MainActivity : AppCompatActivity() {
         }
         showHideFabButtons(false)
 
-        subToUserLocation(referencesViewModel)
+        subToUserLocation()
     }
 
-    @SuppressLint("MissingPermission")
-    fun subToUserLocation(referencesViewModel: ReferencesViewModel) {
+    private fun subToUserLocation() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val locationRequest = LocationRequest()
@@ -85,8 +86,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }
+        else {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+        }
+
     }
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if(isGranted) {
+                subToUserLocation()
+            }
+        }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

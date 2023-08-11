@@ -8,7 +8,7 @@ import elfak.mosis.rmais.reference.filter.RadiusFilter
 import org.osmdroid.util.GeoPoint
 
 class ReferencesViewModel : ViewModel() {
-    var userLocation = GeoPoint(43.753629, 20.090579)
+    var userLocation = GeoPoint(500.0, 500.0)
         set(value) {
             if(referenceDB.filter is RadiusFilter) {
                 if(value.latitude != field.latitude || value.longitude != field.longitude) {
