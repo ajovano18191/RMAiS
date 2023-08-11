@@ -52,6 +52,7 @@ class ReferenceDB(referencesViewModel: ReferencesViewModel) {
         dbRefForWrite.setValue(reference)
             .addOnSuccessListener {
                 dbRefForWrite.child("creationDateTime").setValue(ServerValue.TIMESTAMP)
+                FB.increaseScore(10)
             }
     }
 

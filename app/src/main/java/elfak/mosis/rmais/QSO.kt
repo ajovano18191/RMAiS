@@ -32,6 +32,7 @@ data class QSO(
                     .child(reference.key)
                     .child("lastActivationDateTime")
                     .setValue(ServerValue.TIMESTAMP)
+                FB.increaseScore(1)
             }
     }
 }
