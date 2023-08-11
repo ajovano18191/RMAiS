@@ -12,9 +12,6 @@
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
             android:id="@+id/action_FirstFragment_to_MapFragment"
             app:destination="@id/MapFragment" />
         <action
@@ -26,17 +23,6 @@
         <action
             android:id="@+id/action_FirstFragment_to_ListUsersFragment"
             app:destination="@id/ListUsersFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="elfak.mosis.rmais.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
 
     <fragment
@@ -143,6 +129,7 @@
             android:id="@+id/action_LogQSOFragment_to_ListUsersFragment"
             app:destination="@id/ListUsersFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/ListUsersFragment"
         android:name="elfak.mosis.rmais.ListUsersFragment"

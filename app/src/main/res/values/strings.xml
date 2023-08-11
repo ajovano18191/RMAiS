@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name">RMAiS</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
     <string name="action_map">Map</string>
     <string name="map_fragment_label">Map Fragment</string>
-
 
     <string name="action_list">List</string>
     <string name="list_fragment_label">List Fragment</string>
@@ -69,7 +65,6 @@
     <string name="filter_value">Value:</string>
     <string name="filter_clear_all_button">Clear all filters</string>
     <string name="filter_apply_button">Apply filters</string>
-
 
     <string name="login_fragment_label">Login fragment</string>
     <string name="login_call_sign_label">Enter your call sign here</string>
@@ -134,6 +129,16 @@
     <string name="List_users_fragment_label">List users</string>
 
     <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet.
+        Welcome to my application! \n
+        \n
+        Usages: \n
+        \t\t <b>1. Show objects:</b> Choose List or Map from menu. \n\n
+        \t\t <b>2. Add objects:</b> Choose List or Map from menu. Then, click + button. \n\n
+        \t\t <b>3. Show on map, activate, edit or delete:</b> Choose List or Map from menu. Choose object and click right button. \n\n
+        \t\t <b>4. Edit profile:</b> Choose Profile from menu. \n\n
+        \t\t <b>5. List users:</b> Choose List users from menu. \n\n
+        \t\t <b>6. Filter objects:</b> Choose List or Map from menu. Then, click search button. \n\n
+        \t\t <b>7. Log QSO:</b> Choose List or Map from menu. Choose object and click activate button. Then, input data and finally click log \n\n
+        \t\t <b>7. Log out:</b> Choose Log out from menu. \n\n
     </string>
 </resources>

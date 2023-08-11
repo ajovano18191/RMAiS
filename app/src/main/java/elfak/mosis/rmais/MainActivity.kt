@@ -220,14 +220,15 @@ class MainActivity : AppCompatActivity() {
         lateinit var fabAdd: FloatingActionButton
         lateinit var fabSearch: FloatingActionButton
         fun showHideFabButtons(show: Boolean) {
-            if(show) {
-                fabAdd.show()
-                fabSearch.show()
-            }
-            else {
-                fabAdd.hide()
-                fabSearch.hide()
-            }
+            try {
+                if (show) {
+                    fabAdd.show()
+                    fabSearch.show()
+                } else {
+                    fabAdd.hide()
+                    fabSearch.hide()
+                }
+            } catch (_: Exception) { }
         }
     }
 }
