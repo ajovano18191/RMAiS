@@ -5,6 +5,7 @@ import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import elfak.mosis.rmais.ListUsersFragment
 import elfak.mosis.rmais.MainActivity
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.filter.IFilter
@@ -55,6 +56,23 @@ class ReferenceDB(referencesViewModel: ReferencesViewModel) {
             .addOnSuccessListener {
                 dbRefForWrite.child("creationDateTime").setValue(ServerValue.TIMESTAMP)
             }
+        addPoints2User()
+    }
+
+    private fun addPoints2User() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var score = await(
+                ListUsersFragment.usersDB.child(MainActivity.auth.currentUser!!.uid).get()
+            ).getValue<Long>() ?: 0
+            score += 10
+            ListUsersFragment.usersDB.child(MainActivity.auth.currentUser!!.uid).setValue(
+                object {
+                    val score = score
+                    val callSign =
+                        MainActivity.auth.currentUser!!.email!!.substringBefore('@').uppercase()
+                }
+            )
+        }
     }
 
     fun delete(reference: Reference) {
