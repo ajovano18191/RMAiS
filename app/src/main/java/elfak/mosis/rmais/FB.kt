@@ -1,6 +1,7 @@
 package elfak.mosis.rmais
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -12,12 +13,19 @@ import com.google.firebase.storage.ktx.storage
 
 class FB {
     companion object {
-        private val x = initEmulators()
+        private val initEmulators = initEmulators()
         val auth: FirebaseAuth = Firebase.auth
+        val currentUser: FirebaseUser?
+            get() = auth.currentUser
+
+        val userCallSign: String
+            get() = currentUser!!.email!!.substringBefore('@').uppercase()
+
         private val db: FirebaseDatabase = Firebase.database
         val usersDB: DatabaseReference = db.getReference("users")
         val QSOsDB: DatabaseReference = db.getReference("qsos")
         val referencesDB: DatabaseReference = db.getReference("references")
+
         private val storage: FirebaseStorage = Firebase.storage
         val profileImages: StorageReference = storage.reference.child("profile_images")
 

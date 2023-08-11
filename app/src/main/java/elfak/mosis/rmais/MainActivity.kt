@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val currentUser = FB.auth.currentUser
+        val currentUser = FB.currentUser
         if (currentUser == null) {
             val i = Intent(this, LoginActivity::class.java)
             i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)

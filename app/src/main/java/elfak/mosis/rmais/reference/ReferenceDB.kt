@@ -46,8 +46,8 @@ class ReferenceDB(referencesViewModel: ReferencesViewModel) {
     }
 
     private fun add(reference: Reference) {
-        reference.authorKey = FB.auth.currentUser!!.uid
-        reference.authorCallSign = FB.auth.currentUser!!.email!!.substringBefore('@').uppercase()
+        reference.authorKey = FB.currentUser!!.uid
+        reference.authorCallSign = FB.userCallSign
         val dbRefForWrite = FB.referencesDB.push()
         dbRefForWrite.setValue(reference)
             .addOnSuccessListener {

@@ -65,7 +65,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initViews() {
-        val user = FB.auth.currentUser!!
+        val user = FB.currentUser!!
 
         callSignText.setText(user.email?.substringBefore('@')?.uppercase())
 
@@ -118,7 +118,7 @@ class ProfileFragment : Fragment() {
 
     private fun updateCallSign(): Task<Void> {
         val callSign = callSignText.text.toString()
-        return FB.auth.currentUser!!.updateEmail("$callSign@gmail.com")
+        return FB.currentUser!!.updateEmail("$callSign@gmail.com")
     }
 
     private fun updateProfileImage(): UploadTask {
@@ -129,7 +129,7 @@ class ProfileFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val byteArr = baos.toByteArray()
 
-        val imageReference = FB.profileImages.child("${FB.auth.currentUser!!.uid}.jpg")
+        val imageReference = FB.profileImages.child("${FB.currentUser!!.uid}.jpg")
         return imageReference.putBytes(byteArr)
     }
 
@@ -140,7 +140,7 @@ class ProfileFragment : Fragment() {
             displayName = "$name $surname"
         }
 
-        return FB.auth.currentUser!!.updateProfile(profileUpdates)
+        return FB.currentUser!!.updateProfile(profileUpdates)
     }
 
     private fun updatePhoneNumber() {

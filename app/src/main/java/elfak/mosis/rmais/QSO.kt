@@ -16,8 +16,8 @@ data class QSO(
     val info: String
 ) {
     val dateTime: Long = Calendar.getInstance().timeInMillis
-    val userKey = FB.auth.currentUser!!.uid
-    val userCallSign = FB.auth.currentUser!!.email!!.substringBefore('@').uppercase()
+    val userKey = FB.currentUser!!.uid
+    val userCallSign = FB.userCallSign
     val referenceKey = reference.key
     val referenceToString = reference.toString()
 
