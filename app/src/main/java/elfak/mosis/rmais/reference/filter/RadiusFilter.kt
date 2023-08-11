@@ -1,7 +1,7 @@
 package elfak.mosis.rmais.reference.filter
 
 import com.google.firebase.database.DataSnapshot
-import elfak.mosis.rmais.reference.ReferenceDB
+import elfak.mosis.rmais.FB
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 import kotlin.math.asin
@@ -12,7 +12,7 @@ import kotlin.math.sqrt
 
 class RadiusFilter(val radius: Double, override val referencesViewModel: ReferencesViewModel): IFilter {
     init {
-        ReferenceDB.dbRef.addChildEventListener(this)
+        FB.referencesDB.addChildEventListener(this)
     }
 
     override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {

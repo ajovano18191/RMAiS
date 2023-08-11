@@ -2,17 +2,14 @@ package elfak.mosis.rmais
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.fragment.app.Fragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 class ListUsersFragment : Fragment() {
 
@@ -27,7 +24,7 @@ class ListUsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val usersListView: ListView = view.findViewById(R.id.list_users_list)
-        usersDB.addValueEventListener(object : ValueEventListener {
+        FB.usersDB.orderByChild("score").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val items: List<Array<String>> = dataSnapshot.children.map {
                     val hashMap = it.value as HashMap<*, *>
@@ -44,9 +41,5 @@ class ListUsersFragment : Fragment() {
                 Log.w("Users", "loadUsers:onCancelled", databaseError.toException())
             }
         })
-    }
-
-    companion object {
-        val usersDB: Query = Firebase.database.getReference("users").orderByChild("score")
     }
 }

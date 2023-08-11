@@ -53,7 +53,7 @@ class RegisterFragment : Fragment() {
 
         if(email.isNotEmpty() && password.isNotEmpty() && password == passwordAgain) {
             email += "@gmail.com"
-            MainActivity.auth.createUserWithEmailAndPassword(email, password)
+            FB.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
                     val i = Intent(activity as Activity, MainActivity::class.java)
