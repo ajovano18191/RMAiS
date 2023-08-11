@@ -8,8 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 
 class GridAdapter(
-    private val applicationContext: Context?,
-    private val items: Array<Array<String>>
+    applicationContext: Context?,
+    private val items: List<Array<String>>
 ) : BaseAdapter() {
 
     var inflater: LayoutInflater = LayoutInflater.from(applicationContext)
@@ -26,7 +26,7 @@ class GridAdapter(
         return 0
     }
 
-    override fun getView(i: Int, view: View, viewGroup: ViewGroup?): View? {
+    override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View? {
         val myView = inflater.inflate(R.layout.grid_item, null)
 
         val leftText = myView.findViewById<TextView>(R.id.left_text)

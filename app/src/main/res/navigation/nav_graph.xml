@@ -125,7 +125,7 @@
     <fragment
         android:id="@+id/LogQSOFragment"
         android:name="elfak.mosis.rmais.LogQSOFragment"
-        android:label="@string/log_qso_fragment"
+        android:label="@string/log_qso_fragment_label"
         tools:layout="@layout/fragment_log_qso" >
         <action
             android:id="@+id/action_LogQSOFragment_to_MapFragment"
@@ -146,7 +146,7 @@
     <fragment
         android:id="@+id/ListUsersFragment"
         android:name="elfak.mosis.rmais.ListUsersFragment"
-        android:label="fragment_list_users"
+        android:label="@string/List_users_fragment_label"
         tools:layout="@layout/fragment_list_users" >
         <action
             android:id="@+id/action_ListUsersFragment_to_ProfileFragment"

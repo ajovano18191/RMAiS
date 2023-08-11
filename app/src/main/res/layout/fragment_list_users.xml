@@ -5,16 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ListUsersFragment">
 
-<!--    <ListView-->
-<!--        android:id="@+id/list_users_list"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="305dp" />-->
-
-    <GridView
+    <ListView
+        android:id="@+id/list_users_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2">
-
-    </GridView>
-
+        android:paddingHorizontal="5dp" />
 </FrameLayout>

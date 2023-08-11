@@ -6,14 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 class ListUsersFragment : Fragment() {
@@ -22,7 +20,6 @@ class ListUsersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list_users, container, false)
     }
 
@@ -32,31 +29,21 @@ class ListUsersFragment : Fragment() {
         val usersListView: ListView = view.findViewById(R.id.list_users_list)
         usersDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val list = ArrayList<String>()
-                for(it in dataSnapshot.children) {
-                    var hm = it.value as HashMap<String, *>
-                    list.add(hm["callSign"].toString() + " - " + hm["score"].toString())
-                }
-                list.reverse()
-                usersListView.adapter = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_list_item_1,
-                    list)
-                Log.v("Pufla", "Pufla")
+                val items: List<Array<String>> = dataSnapshot.children.map {
+                    val hashMap = it.value as HashMap<*, *>
+                    arrayOf(
+                        hashMap["callSign"].toString(),
+                        hashMap["score"].toString()
+                    )
+                }.reversed()
+
+                usersListView.adapter = GridAdapter(requireContext(), items)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.w("Users", "loadUsers:onCancelled", databaseError.toException())
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     companion object {
