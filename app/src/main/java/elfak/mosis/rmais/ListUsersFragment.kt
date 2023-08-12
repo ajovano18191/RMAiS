@@ -28,20 +28,22 @@ class ListUsersFragment : Fragment() {
         val usersListView: ListView = view.findViewById(R.id.list_users_list)
         FB.usersDB.orderByChild("score").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val items: List<Array<String>> = dataSnapshot.children.map {
-                    val hashMap = it.value as HashMap<*, *>
-                    arrayOf(
-                        hashMap["callSign"].toString(),
-                        hashMap["score"].toString()
-                    )
-                }.reversed()
-
-                usersListView.adapter = GridAdapter(requireContext(), items)
+                usersListView.adapter = GridAdapter(requireContext(), dataSnapshotToList(dataSnapshot))
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.w("Users", "loadUsers:onCancelled", databaseError.toException())
             }
         })
+    }
+
+    private fun dataSnapshotToList(dataSnapshot: DataSnapshot): List<Array<String>> {
+        return dataSnapshot.children.map {
+            val hashMap = it.value as HashMap<*, *>
+            arrayOf(
+                hashMap["callSign"].toString(),
+                hashMap["score"].toString()
+            )
+        }.reversed()
     }
 }

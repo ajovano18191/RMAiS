@@ -58,14 +58,9 @@ class ListFragment : Fragment() {
                 var arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, referencesViewModel.referencesList)
 
                 if(newText.isNotEmpty()) {
-                    val filteredReferences = ArrayList<Reference>()
-
-                    for(ref in referencesViewModel.referencesList) {
-                        if (ref.toString().contains(newText)) {
-                            filteredReferences.add(ref)
-                        }
+                    val filteredReferences = referencesViewModel.referencesList.filter {
+                        it.toString().contains(newText)
                     }
-
                     arrAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, filteredReferences)
                 }
                 else {
@@ -73,7 +68,6 @@ class ListFragment : Fragment() {
                 }
 
                 referencesList.adapter = arrAdapter
-
                 return true
             }
         })

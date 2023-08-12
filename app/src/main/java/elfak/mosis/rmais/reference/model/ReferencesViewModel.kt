@@ -6,6 +6,11 @@ import elfak.mosis.rmais.reference.ReferenceDB
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.filter.RadiusFilter
 import org.osmdroid.util.GeoPoint
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class ReferencesViewModel : ViewModel() {
     var userLocation = GeoPoint(500.0, 500.0)
@@ -48,4 +53,19 @@ class ReferencesViewModel : ViewModel() {
         set(value) {
             selectedReferenceIndex = _referencesList.indexOf(value)
         }
+
+    fun distanceFromUser(ref: Reference): Double {
+        val testGP = userLocation
+        val dLat = Math.toRadians(ref.lat - testGP.latitude)
+        val dLon = Math.toRadians(ref.lon - testGP.longitude)
+        val originLat = Math.toRadians(testGP.latitude)
+        val destinationLat = Math.toRadians(ref.lat)
+
+        val a = sin(dLat / 2).pow(2.toDouble()) + sin(dLon / 2).pow(2.toDouble()) * cos(originLat) * cos(destinationLat)
+        val c = 2 * asin(sqrt(a))
+
+        val radius = 6372.8
+
+        return radius * c
+    }
 }

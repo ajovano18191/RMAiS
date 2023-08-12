@@ -13,9 +13,13 @@ class ReferenceMarker(private val reference: Reference) {
 
     fun create(referencesViewModel: ReferencesViewModel) {
         if(MapFragment.mapView != null) {
+            val isInfoWindowOpen = remove()
             marker = Marker(MapFragment.mapView)
             MapFragment.mapView?.overlays?.add(marker)
             update(referencesViewModel)
+            if(isInfoWindowOpen) {
+                marker!!.showInfoWindow()
+            }
         }
         else {
             marker = null
@@ -33,10 +37,6 @@ class ReferenceMarker(private val reference: Reference) {
             marker?.showInfoWindow()
         }
         MapFragment.mapView?.invalidate()
-    }
-
-    fun showInfoWindow() {
-        marker?.showInfoWindow()
     }
 
     fun remove(): Boolean {

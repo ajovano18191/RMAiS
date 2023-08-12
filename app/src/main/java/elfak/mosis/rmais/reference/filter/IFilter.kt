@@ -21,6 +21,7 @@ interface IFilter: ChildEventListener {
     }
 
     fun addReference(ref: Reference) {
+        ref.referenceMarker.create(referencesViewModel)
         referencesViewModel.referencesList.add(ref)
         referencesViewModel.arrayAdapter?.notifyDataSetChanged()
     }
@@ -35,12 +36,8 @@ interface IFilter: ChildEventListener {
     fun replaceReference(ref: Reference) {
         val ind = refInd(ref)
         if(ind >= 0) {
-            val isInfoWindowOpen =
-                referencesViewModel.referencesList[ind].referenceMarker.remove()
+            ref.referenceMarker.create(referencesViewModel)
             referencesViewModel.referencesList[ind] = ref
-            if(isInfoWindowOpen) {
-                ref.referenceMarker.showInfoWindow()
-            }
             referencesViewModel.arrayAdapter?.notifyDataSetChanged()
         }
     }
@@ -68,7 +65,7 @@ interface IFilter: ChildEventListener {
     }
 
     override fun onCancelled(error: DatabaseError) {
-        Log.v("Pufla", error.toString())
+        Log.v("Canceled", error.toString())
     }
 
     fun getTypedReference(snapshot: DataSnapshot, isInfoWindowOpen: Boolean = false): Reference? {
@@ -82,7 +79,6 @@ interface IFilter: ChildEventListener {
         }
 
         ref?.key = snapshot.key!!
-        ref?.referenceMarker?.create(referencesViewModel)
 
         return ref
     }
