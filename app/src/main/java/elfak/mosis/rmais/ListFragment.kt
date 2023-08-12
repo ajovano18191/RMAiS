@@ -22,7 +22,7 @@ class ListFragment : Fragment() {
     private val referencesViewModel: ReferencesViewModel by activityViewModels()
 
     private lateinit var mView: View
-    private lateinit var alertDialog: AlertDialog
+    private var alertDialog: AlertDialog? = null
     private lateinit var referencesList: ListView
 
     override fun onCreateView(
@@ -101,14 +101,14 @@ class ListFragment : Fragment() {
         val deleteButton = mView.findViewById<ImageButton>(R.id.delete_button)
         deleteButton.setOnClickListener {
             referencesViewModel.deleteReference(reference)
-            alertDialog.cancel()
+            alertDialog?.cancel()
         }
     }
 
     private fun initCloseButton() {
         val closeButton: ImageButton = mView.findViewById(R.id.close_button)
         closeButton.setOnClickListener {
-            alertDialog.cancel()
+            alertDialog?.cancel()
         }
     }
 

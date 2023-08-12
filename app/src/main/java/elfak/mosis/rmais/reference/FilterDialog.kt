@@ -2,7 +2,6 @@ package elfak.mosis.rmais.reference
 
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -137,8 +136,6 @@ class FilterDialog(private val referencesViewModel: ReferencesViewModel) {
             selectedFieldIndex = spinner.selectedItemPosition
             val selectedField = spinner.selectedItem.toString()
             selectedValue = valueText.text.toString()
-
-            Log.v("Pufla", "$selectedDateFrom $selectedDateTo")
 
             setFilter(selectedField)
             alertDialog.cancel()

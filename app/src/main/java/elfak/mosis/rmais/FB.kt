@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class FB {
     companion object {
-        private val initEmulators = initEmulators()
+        //private val initEmulators = initEmulators()
 
         val auth: FirebaseAuth = Firebase.auth
         val currentUser: FirebaseUser?
