@@ -1,6 +1,7 @@
 package elfak.mosis.rmais
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
@@ -14,6 +15,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.EmailAuthProvider
 
 class LoginFragment : Fragment() {
 
@@ -36,6 +38,31 @@ class LoginFragment : Fragment() {
         findViews(view)
         initLoginButton(view)
         initRegisterButton(view)
+
+        signInAutomatically()
+    }
+
+    private fun signInAutomatically() {
+        val sharedPref = requireContext().getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE) ?: return
+        val callSign = sharedPref.getString("callSign", "") ?: ""
+        val password = sharedPref.getString("password", "") ?: ""
+        if(callSign.isNotEmpty() && password.isNotEmpty()) {
+            val user = FB.currentUser
+            if(user == null) {
+                callSignText.setText(callSign)
+                passwordText.setText(password)
+                signIn()
+            }
+            else {
+                val credential = EmailAuthProvider
+                    .getCredential("$callSign@gmail.com", password)
+                user.reauthenticate(credential)
+                    .addOnCompleteListener {
+                        Log.v("TAG", "User re-authenticated.")
+                        startMainActivity()
+                    }
+            }
+        }
     }
 
     private fun findViews(view: View) {
@@ -60,14 +87,11 @@ class LoginFragment : Fragment() {
         FB.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity as Activity) { task ->
                 if (task.isSuccessful) {
-                    val i = Intent(activity as Activity, MainActivity::class.java)
-                    i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
-                    i.addFlags(FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(i)
-                    requireActivity().finish()
+                    saveUser(email, password)
+                    startMainActivity()
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("Pufla", "signInWithEmail:failure", task.exception)
+                    Log.w("SignIn", "signInWithEmail:failure", task.exception)
                     Toast.makeText(
                         requireContext(),
                         "Authentication failed.",
@@ -75,6 +99,24 @@ class LoginFragment : Fragment() {
                     ).show()
                 }
             }
+    }
+
+    private fun saveUser(email: String, password: String) {
+        val sharedPref = requireContext().getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE)
+        with (sharedPref?.edit()) {
+            this?.putString("callSign", email.substringBefore('@').uppercase())
+            this?.putString("password", password)
+            this?.apply()
+
+        }
+    }
+
+    private fun startMainActivity() {
+        val i = Intent(activity as Activity, MainActivity::class.java)
+        i.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+        i.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        startActivity(i)
+        requireActivity().finish()
     }
 
     private fun initRegisterButton(view: View) {

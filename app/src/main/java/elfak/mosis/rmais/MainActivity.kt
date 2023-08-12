@@ -1,5 +1,6 @@
 package elfak.mosis.rmais
 
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
@@ -147,8 +148,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.action_logout -> {
-                FB.auth.signOut()
-                startLoginActivity()
+                signOut()
             }
             R.id.action_profile -> {
                 when (navController.currentDestination?.id) {
@@ -186,6 +186,15 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun signOut() {
+        FB.auth.signOut()
+        val sharedPref = this.getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE)
+        with (sharedPref?.edit()) {
+            this?.clear()?.apply()
+            startLoginActivity()
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
@@ -202,18 +211,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val currentUser = FB.currentUser
-        if (currentUser == null) {
+        if(!isLoggedIn()) {
             startLoginActivity()
         }
     }
 
-    override fun onStop() {
-        if(FB.signOut) {
-            FB.auth.signOut()
+    private fun isLoggedIn(): Boolean {
+        val sharedPref = this.getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE) ?: return false
+        val callSign = sharedPref.getString("callSign", "") ?: ""
+        val password = sharedPref.getString("password", "") ?: ""
+        if(callSign.isEmpty() || password.isEmpty()) {
+            return false
         }
-        FB.signOut = true
-        super.onStop()
+        return true
     }
 
     companion object {
