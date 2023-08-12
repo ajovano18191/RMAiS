@@ -1,13 +1,12 @@
 package elfak.mosis.rmais.reference.data
 
 import android.view.View
-import android.widget.TextView
+import androidx.navigation.NavController
 import com.google.firebase.database.Exclude
-import elfak.mosis.rmais.R
 import elfak.mosis.rmais.reference.ReferenceMarker
-import java.text.SimpleDateFormat
+import elfak.mosis.rmais.reference.ReferenceView
+import elfak.mosis.rmais.reference.model.ReferencesViewModel
 import java.util.Date
-import java.util.TimeZone
 
 abstract class Reference (
     @get:Exclude
@@ -37,33 +36,9 @@ abstract class Reference (
     val lastActivationDate: Date
         get() = Date(lastActivationDateTime)
 
-    fun initViews(mView: View) {
-        val authorText = mView.findViewById<TextView>(R.id.infowindow_author_text)
-        authorText.text = authorCallSign
-
-        val creationDateText = mView.findViewById<TextView>(R.id.infowindow_creation_date_text)
-        creationDateText.text = dateToString(creationDateTime)
-
-        val lastActivationDateText = mView.findViewById<TextView>(R.id.infowindow_last_activation_date_text)
-        lastActivationDateText.text = dateToString(lastActivationDateTime)
-
-        val titleText = mView.findViewById<TextView>(R.id.infowindow_title_text)
-        titleText.text = "$reference $name"
-
-        val latText = mView.findViewById<TextView>(R.id.infowindow_latitude_text)
-        latText.text = lat.toString()
-
-        val logText = mView.findViewById<TextView>(R.id.infowindow_longitude_text)
-        logText.text = lon.toString()
-
-        val locText = mView.findViewById<TextView>(R.id.infowindow_loc_text)
-        locText.text = loc
-    }
-
-    private fun dateToString(date: Long): String {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm z")
-        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-        return dateFormat.format(date)
+    fun initViews(mView: View, referencesViewModel: ReferencesViewModel, navController: NavController) {
+        val rv = ReferenceView(this)
+        rv.initViews(mView, referencesViewModel, navController)
     }
 
     override fun hashCode(): Int {

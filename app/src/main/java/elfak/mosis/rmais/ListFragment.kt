@@ -2,7 +2,6 @@ package elfak.mosis.rmais
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,9 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.SearchView
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import elfak.mosis.rmais.reference.data.Reference
 import elfak.mosis.rmais.reference.model.ReferencesViewModel
 
@@ -84,15 +81,11 @@ class ListFragment : Fragment() {
                 val reference: Reference = p0?.adapter?.getItem(p2) as Reference
 
                 mView = inflateView()
+
                 alertDialog = AlertDialog.Builder(context)
                     .setView(mView)
                     .show()
-
-                reference.initViews(mView)
-
-                initMapButton(reference)
-                initActivateButton(reference)
-                initEditButton(reference)
+                reference.initViews(mView, referencesViewModel, findNavController())
                 initDeleteButton(reference)
                 initCloseButton()
             }
@@ -102,40 +95,6 @@ class ListFragment : Fragment() {
         val inflater =
             requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         return inflater.inflate(R.layout.info_window, null)
-    }
-
-    private fun initMapButton(reference: Reference) {
-        val mapButton = mView.findViewById<ImageButton>(R.id.map_button)
-        mapButton.visibility = View.VISIBLE
-        mapButton.setOnClickListener {
-            referencesViewModel.selectedReference = reference
-            alertDialog.cancel()
-            findNavController().navigate(R.id.action_ListFragment_to_MapFragment)
-        }
-    }
-
-    private fun initActivateButton(reference: Reference) {
-        val activateButton: ImageButton = mView.findViewById(R.id.activate_button)
-        activateButton.setOnClickListener {
-            alertDialog.cancel()
-            if(ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Snackbar.make(requireView(), "Morate odobriti pristup lokaciji", Snackbar.LENGTH_INDEFINITE).show()
-            }
-            else {
-                referencesViewModel.selectedReference = reference
-                findNavController().navigate(R.id.action_ListFragment_to_LogQSOFragment)
-            }
-        }
-    }
-
-    private fun initEditButton(reference: Reference) {
-        val editButton = mView.findViewById<ImageButton>(R.id.edit_button)
-        editButton.setOnClickListener {
-            referencesViewModel.selectedReference = reference
-            alertDialog.cancel()
-            findNavController().navigate(R.id.action_ListFragment_to_AddOrEditFragment)
-        }
     }
 
     private fun initDeleteButton(reference: Reference) {
@@ -151,5 +110,10 @@ class ListFragment : Fragment() {
         closeButton.setOnClickListener {
             alertDialog.cancel()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        alertDialog?.cancel()
     }
 }
