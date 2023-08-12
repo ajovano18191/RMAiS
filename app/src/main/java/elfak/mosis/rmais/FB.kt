@@ -25,7 +25,6 @@ class FB {
             get() = auth.currentUser
         val userCallSign: String
             get() = currentUser!!.email!!.substringBefore('@').uppercase()
-        var signOut = true
 
         private val db: FirebaseDatabase = Firebase.database
         val usersDB: DatabaseReference = db.getReference("users")

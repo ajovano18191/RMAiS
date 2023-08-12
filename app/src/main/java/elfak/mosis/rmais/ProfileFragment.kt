@@ -88,7 +88,6 @@ class ProfileFragment : Fragment() {
     private fun initProfileImageView() {
         profileImageView.setOnClickListener {
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            FB.signOut = false
             startActivityForResult(cameraIntent, CAMERA_REQUEST)
         }
     }

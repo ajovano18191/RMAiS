@@ -3,12 +3,14 @@ package elfak.mosis.rmais
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.snackbar.Snackbar
 import elfak.mosis.rmais.reference.data.Reference
@@ -28,11 +30,23 @@ class LogQSOFragment : Fragment() {
     private lateinit var bandSpinner: Spinner
     private lateinit var infoText: EditText
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_log_qso, container, false)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        for (x in menu.children) {
+            x.isVisible = false
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

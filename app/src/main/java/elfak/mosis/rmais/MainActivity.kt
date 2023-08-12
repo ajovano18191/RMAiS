@@ -129,6 +129,9 @@ class MainActivity : AppCompatActivity() {
                     R.id.ListFragment -> {
                         navController.navigate(R.id.action_ListFragment_to_MapFragment)
                     }
+                    R.id.ProfileFragment -> {
+                        navController.navigate(R.id.action_ProfileFragment_to_MapFragment)
+                    }
                     R.id.ListUsersFragment -> {
                         navController.navigate(R.id.action_ListUsersFragment_to_MapFragment)
                     }
@@ -141,6 +144,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.MapFragment -> {
                         navController.navigate(R.id.action_MapFragment_to_ListFragment)
+                    }
+                    R.id.ProfileFragment -> {
+                        navController.navigate(R.id.action_ProfileFragment_to_ListFragment)
                     }
                     R.id.ListUsersFragment -> {
                         navController.navigate(R.id.action_ListUsersFragment_to_ListFragment)
@@ -176,6 +182,28 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.ListFragment -> {
                         navController.navigate(R.id.action_ListFragment_to_ListUsersFragment)
+                    }
+                    R.id.ProfileFragment -> {
+                        navController.navigate(R.id.action_ProfileFragment_to_ListUsersFragment)
+                    }
+                    R.id.LogQSOFragment -> {
+                        navController.navigate(R.id.action_LogQSOFragment_to_ListUsersFragment)
+                    }
+                }
+            }
+            R.id.action_list_users -> {
+                when (navController.currentDestination?.id) {
+                    R.id.FirstFragment -> {
+                        navController.navigate(R.id.action_FirstFragment_to_ListUsersFragment)
+                    }
+                    R.id.MapFragment -> {
+                        navController.navigate(R.id.action_MapFragment_to_ListUsersFragment)
+                    }
+                    R.id.ListFragment -> {
+                        navController.navigate(R.id.action_ListFragment_to_ListUsersFragment)
+                    }
+                    R.id.ProfileFragment -> {
+                        navController.navigate(R.id.action_ProfileFragment_to_ListUsersFragment)
                     }
                     R.id.LogQSOFragment -> {
                         navController.navigate(R.id.action_LogQSOFragment_to_ListUsersFragment)
